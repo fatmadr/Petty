@@ -1,2152 +1,498 @@
-<html class="no-js" lang="en">
-  <!-- Mirrored from themedox.com/demo/petpal/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 13 Nov 2025 18:32:43 GMT -->
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>Petpal - Pet Care and Pet Shop HTML Template</title>
-    <meta
-      name="description"
-      content="Petpal - Pet Care and Pet Shop HTML Template"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<!doctype html>
+<html lang="en">
 
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="assets/img/favicon.png"
-    />
-    <!-- Place favicon.ico in the root directory -->
+<style>
+/* === Main Page Background === */
+body {
+  background: linear-gradient(to bottom, #9daae9, #c2a9dc); 
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  padding: 50px;
+}
 
-    <!-- CSS here -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/animate.min.css" />
-    <link rel="stylesheet" href="assets/css/magnific-popup.css" />
-    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css" />
-    <link rel="stylesheet" href="assets/css/flaticon_pet_care.css" />
-    <link rel="stylesheet" href="assets/css/odometer.css" />
-    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="assets/css/select2.min.css" />
-    <link rel="stylesheet" href="assets/css/jquery-ui.css" />
-    <link rel="stylesheet" href="assets/css/aos.css" />
-    <link rel="stylesheet" href="assets/css/default.css" />
-    <link rel="stylesheet" href="assets/css/main.css" />
-  </head>
+/* === Header === */
+header h1 {
+  color: #62086e; 
+}
+header small {
+  color: #ae2f2f; 
+}
 
-  <body>
-    <!--Preloader-->
-    <div id="preloader">
-      <div id="loader" class="loader">
-        <div class="loader-container">
-          <div class="loader-icon">
-            <img src="assets/img/logo/preloader.svg" alt="Preloader" />
+/* === Main Buttons === */
+.btn-main {
+  background: linear-gradient(135deg, #9daae9, #c2a9dc); 
+  color: white;
+  border: none;
+}
+
+/* === Animal Cards === */
+.card-animal {
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+  border-left: 5px solid #ffa726; /* orange accent */
+  border-radius: 10px;
+  padding: 10px;
+  background: #fffde7; /* light cream */
+}
+.card-animal:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* === Avatar Circle === */
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: #fff;
+  font-size: 20px;
+  background: #ccc; /* placeholder, JS will set dynamic gradient */
+}
+
+/* === Details Panel === */
+#detailsPanel {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  background: linear-gradient(135deg, #f1f8e9, #fffde7);
+}
+
+/* === Health Records === */
+.record {
+  border: 1px solid #ffe0b2;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff3e0; /* light orange */
+  transition: background 0.2s;
+}
+.record:hover {
+  background: #e85f848b; /* highlight on hover */
+}
+.record .fw-bold {
+  color: #161515; /* dark orange for titles */
+}
+#recordsCount {
+  color: #161515; /* orange accent */
+}
+
+/* === Inputs and Textareas === */
+input, textarea {
+  border-radius: 8px;
+  border: 1px solid #c5e1a5; /* subtle green border */
+}
+
+/* === Modals === */
+.modal-content {
+  border-radius: 12px;
+  background: linear-gradient(135deg, #fffde7, #e8f5e9); /* light green/yellow */
+}
+
+/* === Small Buttons === */
+.small-btn {
+  font-size: 13px;
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+</style>
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Health Record Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color:#f7fafc; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial; padding:20px; }
+    header{ margin-bottom:18px }
+    .btn-main{ background:#3a2d6a; color:white; border:none }
+    .card-animal{ cursor:pointer; transition:transform .12s; }
+    .card-animal:hover{ transform:translateY(-4px) }
+    .avatar{ width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;background:linear-gradient(135deg,#7fb3ff,#2b7cff); font-size:20px }
+    .record{ border:1px solid #e8eef8; padding:12px; border-radius:8px; background:#fff; }
+    .small-btn{ font-size:13px; padding:6px 8px; border-radius:8px }
+  </style>
+</head>
+<body>
+  <header class="d-flex justify-content-between align-items-center">
+    <div>
+      <h1 class="mb-0">Health Record Management</h1>
+      <small class="text-muted">Manage animal profiles and their health records</small>
+    </div>
+    <div>
+      <button id="openAddAnimal" class="btn btn-main">+ Add Animal</button>
+    </div>
+  </header>
+
+  <div class="row g-3">
+    <div class="col-lg-4">
+      <div class="mb-2 d-flex justify-content-between align-items-center">
+        <strong>Animals</strong>
+        <input id="searchInput" class="form-control form-control-sm" placeholder="Search name..." style="max-width:160px">
+      </div>
+      <div id="animalList" class="d-grid gap-2"></div>
+    </div>
+
+    <div class="col-lg-8">
+      <div id="detailsPanel" class="card p-3">
+        <div class="d-flex gap-3 align-items-center mb-2">
+          <div id="detailAvatar" class="avatar">A</div>
+          <div>
+            <h4 id="detailName" class="mb-0">Select an animal</h4>
+            <div id="detailMeta" class="text-muted">Species · Breed · Age</div>
+          </div>
+          <div class="ms-auto">
+            <button id="btnAddRecord" class="btn btn-main btn-sm" disabled>+ Add Health Record</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <strong>Health Records</strong>
+            <div id="recordsCount" class="text-muted"></div>
+          </div>
+          <div id="recordsContainer" class="d-flex flex-column gap-2">
+            <div class="text-muted">Select an animal to see records.</div>
           </div>
         </div>
       </div>
     </div>
-    <!--Preloader-end -->
+  </div>
 
-    <!-- Scroll-top -->
-    <button class="scroll__top scroll-to-target" data-target="html">
-      <i class="fas fa-angle-up"></i>
-    </button>
-    <!-- Scroll-top-end-->
-
-    <!-- header-area -->
-    <header>
-      <div id="header-fixed-height"></div>
-      <div class="tg-header__top">
-        <div class="container custom-container">
-          <div class="row">
-            <div class="col-xl-6 col-lg-8">
-              <ul class="tg-header__top-info left-side list-wrap">
-                <li>
-                  <i class="flaticon-placeholder"></i>59 Jakc Street Brooklyn,
-                  New York
-                </li>
-                <li>
-                  <i class="flaticon-mail"></i
-                  ><a href="mailto:Petspostinfo@gmail.com"
-                    >Petspostinfo@gmail.com</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div class="col-xl-6 col-lg-4">
-              <ul class="tg-header__top-right list-wrap">
-                <li>
-                  <i class="flaticon-three-o-clock-clock"></i>Opening Hour:
-                  09.00 am- 11.00 pm
-                </li>
-                <li class="tg-header__top-social">
-                  <ul class="list-wrap">
-                    <li>
-                      <a href="https://www.facebook.com/" target="_blank"
-                        ><i class="fab fa-facebook-f"></i
-                      ></a>
-                    </li>
-                    <li>
-                      <a href="https://twitter.com/" target="_blank"
-                        ><i class="fab fa-twitter"></i
-                      ></a>
-                    </li>
-                    <li>
-                      <a href="https://www.whatsapp.com/" target="_blank"
-                        ><i class="fab fa-whatsapp"></i
-                      ></a>
-                    </li>
-                    <li>
-                      <a href="https://www.instagram.com/" target="_blank"
-                        ><i class="fab fa-instagram"></i
-                      ></a>
-                    </li>
-                    <li>
-                      <a href="https://www.youtube.com/" target="_blank"
-                        ><i class="fab fa-youtube"></i
-                      ></a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </div>
+  <!-- Add Animal Modal -->
+  <div class="modal fade" id="addAnimalModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title">Add Animal</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body">
+          <form id="formAddAnimal">
+            <div class="mb-2"><label class="form-label">Name</label><input required name="name" class="form-control"></div>
+            <div class="mb-2"><label class="form-label">Species</label><input name="species" class="form-control"></div>
+            <div class="mb-2"><label class="form-label">Breed</label><input name="breed" class="form-control"></div>
+            <div class="mb-2"><label class="form-label">Date of birth</label><input name="dob" type="date" class="form-control"></div>
+            <div class="d-grid"><button type="submit" class="btn btn-main">Save Animal</button></div>
+          </form>
         </div>
       </div>
-      <div id="sticky-header" class="tg-header__area">
-        <div class="container custom-container">
-          <div class="row">
-            <div class="col-12">
-              <div class="tgmenu__wrap">
-                <nav class="tgmenu__nav">
-                  <div class="logo">
-                    <a href="index-2.html"
-                      ><img src="assets/img/logo/logo.png" alt="Logo"
-                    /></a>
-                  </div>
-                  <div
-                    class="tgmenu__navbar-wrap tgmenu__main-menu d-none d-lg-flex"
-                  >
-                    <ul class="navigation">
-                      <li class="active menu-item-has-children">
-                        <a href="#">Home</a>
-                        <ul class="sub-menu">
-                          <li class="active">
-                            <a href="index-2.html">Pet Care & Veterinary</a>
-                          </li>
-                          <li><a href="index-3.html">Pet Breed</a></li>
-                          <li><a href="index-4.html">Pet Adopt</a></li>
-                          <li><a href="index-5.html">pet Woocommerce</a></li>
-                        </ul>
-                      </li>
-                      <li><a href="about.html">About</a></li>
-                      <li class="menu-item-has-children">
-                        <a href="#">Shop</a>
-                        <ul class="sub-menu">
-                          <li><a href="product.html">Our Shop</a></li>
-                          <li>
-                            <a href="product-details.html">Shop Details</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li class="menu-item-has-children">
-                        <a href="#">Pages</a>
-                        <ul class="sub-menu">
-                          <li><a href="animal.html">All Pets</a></li>
-                          <li><a href="animal-details.html">Pet Details</a></li>
-                          <li><a href="gallery.html">Gallery</a></li>
-                          <li><a href="faq.html">Faq Page</a></li>
-                          <li><a href="pricing.html">Pricing Page</a></li>
-                          <li>
-                            <a href="reservation.html">Reservation Page</a>
-                          </li>
-                          <li><a href="team.html">Our Team</a></li>
-                          <li><a href="team-details.html">Team Details</a></li>
-                          <li><a href="blog.html">Our Blog</a></li>
-                          <li><a href="blog-details.html">Blog Details</a></li>
-                          <li><a href="error.html">404 Error Page</a></li>
-                        </ul>
-                      </li>
-                      <li><a href="contact.html">contacts</a></li>
-                    </ul>
-                  </div>
-                  <div class="tgmenu__action d-none d-md-block">
-                    <ul class="list-wrap">
-                      <li class="header-search">
-                        <a href="javascript:void(0)" class="search-open-btn">
-                          <i class="flaticon-loupe"></i>
-                        </a>
-                      </li>
-                      <li class="header-cart">
-                        <a href="javascript:void(0)">
-                          <i class="flaticon-shopping-bag"></i>
-                          <span>0</span>
-                        </a>
-                      </li>
-                      <li class="offCanvas-menu">
-                        <a href="javascript:void(0)" class="menu-tigger">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="26"
-                            height="16"
-                            viewBox="0 0 26 16"
-                            fill="none"
-                          >
-                            <rect
-                              width="9"
-                              height="2"
-                              rx="1"
-                              fill="currentcolor"
-                            />
-                            <rect
-                              x="11"
-                              width="15"
-                              height="2"
-                              rx="1"
-                              fill="currentcolor"
-                            />
-                            <rect
-                              y="14"
-                              width="26"
-                              height="2"
-                              rx="1"
-                              fill="currentcolor"
-                            />
-                            <rect
-                              y="7"
-                              width="16"
-                              height="2"
-                              rx="1"
-                              fill="currentcolor"
-                            />
-                            <rect
-                              x="17"
-                              y="7"
-                              width="9"
-                              height="2"
-                              rx="1"
-                              fill="currentcolor"
-                            />
-                          </svg>
-                        </a>
-                      </li>
-                      <li class="header-btn">
-                        <a href="contact.html" class="btn"
-                          ><i class="flaticon-calendar-1"></i>Appointment</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="mobile-nav-toggler">
-                    <i class="flaticon-layout"></i>
-                  </div>
-                </nav>
-              </div>
+    </div>
+  </div>
 
-              <!-- Mobile Menu  -->
-              <div class="tgmobile__menu">
-                <nav class="tgmobile__menu-box">
-                  <div class="close-btn"><i class="fas fa-times"></i></div>
-                  <div class="nav-logo">
-                    <a href="index-2.html"
-                      ><img src="assets/img/logo/logo.png" alt="Logo"
-                    /></a>
-                  </div>
-                  <div class="tgmobile__search">
-                    <form action="#">
-                      <input type="text" placeholder="Search here..." />
-                      <button><i class="fas fa-search"></i></button>
-                    </form>
-                  </div>
-                  <div class="tgmobile__menu-outer">
-                    <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
-                  </div>
-                  <div class="social-links">
-                    <ul class="list-wrap">
-                      <li>
-                        <a href="https://www.facebook.com/" target="_blank"
-                          ><i class="fab fa-facebook-f"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://twitter.com/" target="_blank"
-                          ><i class="fab fa-twitter"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.whatsapp.com/" target="_blank"
-                          ><i class="fab fa-whatsapp"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.instagram.com/" target="_blank"
-                          ><i class="fab fa-instagram"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.youtube.com/" target="_blank"
-                          ><i class="fab fa-youtube"></i
-                        ></a>
-                      </li>
-                    </ul>
-                  </div>
-                </nav>
-              </div>
-              <div class="tgmobile__menu-backdrop"></div>
-              <!-- End Mobile Menu -->
+  <!-- View Records Modal (dynamic contents) -->
+  <div class="modal fade" id="viewRecordsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 id="viewRecordsTitle" class="modal-title">Health Records</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="viewRecordsList" class="d-flex flex-column gap-2 mb-3"></div>
+          <hr>
+          <h6>Add / Edit Record</h6>
+          <form id="formRecord">
+            <input type="hidden" name="recordId">
+            <div class="row g-2">
+              <div class="col-md-4"><label class="form-label">Date</label><input name="date" type="date" class="form-control" required></div>
+              <div class="col-md-8"><label class="form-label">Veterinarian</label><input name="vet" class="form-control"></div>
             </div>
-          </div>
+            <div class="mb-2 mt-2"><label class="form-label">Title</label><input name="title" class="form-control" required></div>
+            <div class="mb-2"><label class="form-label">Description</label><textarea name="description" class="form-control" rows="3"></textarea></div>
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-main">Save Record</button>
+              <button type="button" id="clearRecordForm" class="btn btn-outline-secondary">Clear</button>
+            </div>
+          </form>
         </div>
       </div>
+    </div>
+  </div>
 
-      <!-- header-search -->
-      <div class="search__popup">
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <div class="search__wrapper">
-                <div class="search__close">
-                  <button type="button" class="search-close-btn">
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 18 18"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M17 1L1 17"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></path>
-                      <path
-                        d="M1 1L17 17"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-                <div class="search__form">
-                  <form action="#">
-                    <div class="search__input">
-                      <input
-                        class="search-input-field"
-                        type="text"
-                        placeholder="Type keywords here"
-                      />
-                      <span class="search-focus-border"></span>
-                      <button>
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M9.55 18.1C14.272 18.1 18.1 14.272 18.1 9.55C18.1 4.82797 14.272 1 9.55 1C4.82797 1 1 4.82797 1 9.55C1 14.272 4.82797 18.1 9.55 18.1Z"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          ></path>
-                          <path
-                            d="M19.0002 19.0002L17.2002 17.2002"
-                            stroke="currentcolor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          ></path>
-                        </svg>
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="search-popup-overlay"></div>
-      <!-- header-search-end -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const STORAGE_KEY = 'hrm_data_v1';
+    const defaultData = {
+      animals: [
+        { id:'a1', name:'Buddy', species:'Dog', breed:'Golden retriever', dob:'2018-04-15' },
+        { id:'a2', name:'Mittens', species:'Cat', breed:'Tabby', dob:'2020-10-30' }
+      ],
+      records: [
+        { id:'r1', animalId:'a1', date:'2023-04-15', title:'Annual vaccination', description:'Rabies + DHPP', vet:'Dr. Lina' },
+        { id:'r2', animalId:'a1', date:'2023-02-01', title:'Skin rash treatment', description:'Topical cream', vet:'Dr. Omar' }
+      ]
+    };
 
-      <!-- offCanvas-menu -->
-      <div class="offCanvas__info">
-        <div class="offCanvas__close-icon menu-close">
-          <button><i class="far fa-window-close"></i></button>
-        </div>
-        <div class="offCanvas__logo mb-30">
-          <a href="index-2.html"
-            ><img src="assets/img/logo/logo.png" alt="Logo"
-          /></a>
-        </div>
-        <div class="offCanvas__side-info mb-30">
-          <div class="contact-list mb-30">
-            <h4>Office Address</h4>
-            <p>
-              123/A, Miranda City Likaoli <br />
-              Prikano, Dope
-            </p>
-          </div>
-          <div class="contact-list mb-30">
-            <h4>Phone Number</h4>
-            <p>+0989 7876 9865 9</p>
-            <p>+(090) 8765 86543 85</p>
-          </div>
-          <div class="contact-list mb-30">
-            <h4>Email Address</h4>
-            <p>info@example.com</p>
-            <p>example.mail@hum.com</p>
-          </div>
-        </div>
-        <div class="offCanvas__social-icon mt-30">
-          <a href="javascript:void(0)"><i class="fab fa-facebook-f"></i></a>
-          <a href="javascript:void(0)"><i class="fab fa-twitter"></i></a>
-          <a href="javascript:void(0)"><i class="fab fa-google-plus-g"></i></a>
-          <a href="javascript:void(0)"><i class="fab fa-instagram"></i></a>
-        </div>
-      </div>
-      <div class="offCanvas__overly"></div>
-      <!-- offCanvas-menu-end -->
-    </header>
-    <!-- header-area-end -->
+    function loadData(){
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(defaultData));
+      } catch(e){ return JSON.parse(JSON.stringify(defaultData)); }
+    }
+    function saveData(data){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
 
-    <!-- main-area -->
-    <main class="fix">
-      <!-- banner-area -->
-      <section
-        class="banner__area banner__bg"
-        data-background="assets/img/banner/banner_bg.jpg"
-      >
-        <div class="container">
-          <div class="row align-items-center justify-content-center">
-            <div class="col-xl-5 col-lg-6">
-              <div class="banner__content">
-                <h2 class="title" data-aos="fade-up" data-aos-delay="200">
-                  Trusted Pet
-                  <img src="assets/img/banner/banner_title_img01.png" alt="" />
-                  care & Veterinary Center
-                  <span class="icon"
-                    ><img src="assets/img/banner/banner_title_img02.png" alt=""
-                  /></span>
-                  Point
-                </h2>
-                <p data-aos="fade-up" data-aos-delay="400">
-                  Template Kit uses demo images from Envato Elements Follower
-                  will need to license these images from Envato.
-                </p>
-                <a
-                  href="about.html"
-                  class="btn"
-                  data-aos="fade-up"
-                  data-aos-delay="600"
-                  >Read More
-                  <img
-                    src="assets/img/icon/right_arrow.svg"
-                    alt=""
-                    class="injectable"
-                /></a>
-              </div>
-            </div>
-            <div class="col-xl-7 col-lg-6 col-md-9">
-              <div class="banner__img text-end">
-                <img
-                  src="assets/img/banner/banner_img01.png"
-                  alt="img"
-                  data-aos="fade-left"
-                  data-aos-delay="800"
-                />
-                <div
-                  class="healthy-pets"
-                  data-aos="zoom-in"
-                  data-aos-delay="1000"
-                >
-                  <div class="icon">
-                    <img
-                      src="assets/img/icon/pet_icon01.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                  <div class="content">
-                    <h6 class="circle rotateme">
-                      BETTER - HEALTHY - PETS - LOVE -
-                    </h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="banner__shape-wrap">
-          <img
-            src="assets/img/banner/banner_shape01.png"
-            alt="img"
-            data-aos="fade-down"
-            data-aos-delay="1200"
-          />
-          <img
-            src="assets/img/banner/banner_shape02.png"
-            alt="img"
-            data-aos="fade-up-right"
-            data-aos-delay="1200"
-          />
-          <img
-            src="assets/img/banner/banner_shape03.png"
-            alt="img"
-            class="ribbonRotate"
-          />
-          <img src="assets/img/banner/banner_shape04.png" alt="img" />
-        </div>
-      </section>
-      <!-- banner-area-end -->
+    let data = loadData();
+    let selectedAnimalId = data.animals.length ? data.animals[0].id : null;
 
-      <!-- about-area -->
-      <section class="about__area">
-        <div class="container">
-          <div class="row align-items-center justify-content-center">
-            <div class="col-xl-5 col-lg-6 col-md-8">
-              <div class="about__img">
-                <img src="assets/img/images/about_img.png" alt="" />
-                <div class="video__box">
-                  <div class="video__box-shape">
-                    <img
-                      src="assets/img/images/about_video_shape.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                  <h5 class="title">
-                    Watch Our <br />
-                    Working Video
-                  </h5>
-                  <a
-                    href="https://www.youtube.com/watch?v=XdFfCPK5ycw"
-                    class="popup-video play-btn"
-                    ><i class="fas fa-play"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-7 col-lg-6">
-              <div class="about__content">
-                <div class="section__title mb-20">
-                  <span class="sub-title"
-                    >Know More Us
-                    <strong class="shake">
-                      <img
-                        src="assets/img/icon/pet_icon02.svg"
-                        alt=""
-                        class="injectable"
-                      />
-                    </strong>
-                  </span>
-                  <h2 class="title">
-                    Our Passion Is Providing <br />
-                    Superior Pet Care
-                  </h2>
-                </div>
-                <div class="about__content-inner">
-                  <div class="experience__box">
-                    <div class="experience__box-shape">
-                      <img
-                        src="assets/img/images/experience_shape.svg"
-                        alt=""
-                        class="injectable"
-                      />
-                    </div>
-                    <div class="experience__box-content">
-                      <h4 class="title">15 <span>Yr</span></h4>
-                      <p>Experience</p>
-                    </div>
-                  </div>
-                  <p>
-                    Come see how I’m styling these final days of summer with
-                    bright palettes and pops of color that will dazzle your
-                    wardrobe year round!
-                  </p>
-                </div>
-                <p>
-                  We will work with you to develop individualised care plans,
-                  including management of chronic diseases. We are committed to
-                  being the region’s premier healthcare network providing
-                  patient centered care that inspires.
-                </p>
-                <div class="about__content-bottom">
-                  <div class="about__content-sign">
-                    <img src="assets/img/images/author_sign.png" alt="" />
-                  </div>
-                  <div class="customer__review">
-                    <div class="customer__review-img">
-                      <ul class="list-wrap">
-                        <li>
-                          <img src="assets/img/images/author_01.png" alt="" />
-                        </li>
-                        <li>
-                          <img src="assets/img/images/author_02.png" alt="" />
-                        </li>
-                        <li>
-                          <img src="assets/img/images/author_03.png" alt="" />
-                        </li>
-                        <li>
-                          <img src="assets/img/images/author_04.png" alt="" />
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="customer__review-content">
-                      <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                      </div>
-                      <span>4.7 (1,567 Reviews)</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="shape">
-                  <img
-                    src="assets/img/images/about_shape02.png"
-                    alt="img"
-                    data-aos="fade-down-left"
-                    data-aos-delay="400"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="about__shape-wrap">
-          <img
-            src="assets/img/images/about_shape01.png"
-            alt="img"
-            data-aos="fade-up-right"
-            data-aos-delay="800"
-          />
-          <img
-            src="assets/img/images/about_shape03.png"
-            alt="img"
-            class="ribbonRotate"
-          />
-        </div>
-      </section>
-      <!-- about-area-end -->
+    const animalListEl = document.getElementById('animalList');
+    const detailAvatar = document.getElementById('detailAvatar');
+    const detailName = document.getElementById('detailName');
+    const detailMeta = document.getElementById('detailMeta');
+    const recordsContainer = document.getElementById('recordsContainer');
+    const recordsCount = document.getElementById('recordsCount');
+    const btnAddRecord = document.getElementById('btnAddRecord');
+    const searchInput = document.getElementById('searchInput');
 
-      <!-- marquee-area -->
-      <div class="marquee__area">
-        <div class="marquee__wrap">
-          <div class="marquee__box">
-            <a href="contact.html"
-              >Book For Online Appointment
-              <img src="assets/img/images/marquee_icon.svg" alt=""
-            /></a>
-            <a href="contact.html"
-              >Book For Online Appointment
-              <img src="assets/img/images/marquee_icon.svg" alt=""
-            /></a>
-            <a href="contact.html"
-              >Book For Online Appointment
-              <img src="assets/img/images/marquee_icon.svg" alt=""
-            /></a>
-            <a href="contact.html"
-              >Book For Online Appointment
-              <img src="assets/img/images/marquee_icon.svg" alt=""
-            /></a>
-          </div>
-          <div class="marquee__box">
-            <a href="contact.html"
-              >Book For Online Appointment
-              <img src="assets/img/images/marquee_icon.svg" alt=""
-            /></a>
-            <a href="contact.html"
-              >Book For Online Appointment
-              <img src="assets/img/images/marquee_icon.svg" alt=""
-            /></a>
-            <a href="contact.html"
-              >Book For Online Appointment
-              <img src="assets/img/images/marquee_icon.svg" alt=""
-            /></a>
-            <a href="contact.html"
-              >Book For Online Appointment
-              <img src="assets/img/images/marquee_icon.svg" alt=""
-            /></a>
-          </div>
-        </div>
-      </div>
-      <!-- marquee-area-end -->
+    const addAnimalModal = new bootstrap.Modal(document.getElementById('addAnimalModal'));
+    const viewRecordsModalEl = document.getElementById('viewRecordsModal');
+    const viewRecordsModal = new bootstrap.Modal(viewRecordsModalEl);
+    const viewRecordsTitle = document.getElementById('viewRecordsTitle');
+    const viewRecordsList = document.getElementById('viewRecordsList');
+    const formAddAnimal = document.getElementById('formAddAnimal');
+    const formRecord = document.getElementById('formRecord');
+    const openAddAnimalBtn = document.getElementById('openAddAnimal');
+    const clearRecordFormBtn = document.getElementById('clearRecordForm');
 
-      <!-- services-area -->
-      <section class="services__area">
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-xl-6 col-lg-7">
-              <div class="section__title mb-40">
-                <span class="sub-title"
-                  >Delivering world class home care
-                  <strong class="shake">
-                    <img
-                      src="assets/img/icon/pet_icon02.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </strong>
-                </span>
-                <h2 class="title">
-                  Providing Our Best Pet Care & Veterinary Services
-                </h2>
-              </div>
-            </div>
-            <div class="col-xl-6 col-lg-5">
-              <div class="view__all-btn text-end mb-40">
-                <a href="animal-details.html" class="btn border-btn"
-                  >See All Services
-                  <img
-                    src="assets/img/icon/right_arrow.svg"
-                    alt=""
-                    class="injectable"
-                /></a>
-              </div>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
-              <div class="services__item">
-                <div class="services__shape">
-                  <div class="shape-one">
-                    <img
-                      src="assets/img/images/services_shape01.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                  <div class="shape-two">
-                    <img
-                      src="assets/img/images/services_shape02.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                </div>
-                <div class="services__icon">
-                  <i class="flaticon-vaccine"></i>
-                  <div class="services__icon-shape">
-                    <img
-                      src="assets/img/images/services_icon_shape.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                </div>
-                <div class="services__content">
-                  <h4 class="title">
-                    <a href="animal-details.html">Pet Vaccination</a>
-                  </h4>
-                  <p>
-                    We will work with you to develop individu alised care plans
-                    including
-                  </p>
-                  <a href="animal-details.html" class="btn border-btn"
-                    >See Details
-                    <img
-                      src="assets/img/icon/right_arrow02.svg"
-                      alt=""
-                      class="injectable"
-                  /></a>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
-              <div class="services__item">
-                <div class="services__shape">
-                  <div class="shape-one">
-                    <img
-                      src="assets/img/images/services_shape01.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                  <div class="shape-two">
-                    <img
-                      src="assets/img/images/services_shape02.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                </div>
-                <div class="services__icon">
-                  <i class="flaticon-beauty-saloon"></i>
-                  <div class="services__icon-shape">
-                    <img
-                      src="assets/img/images/services_icon_shape.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                </div>
-                <div class="services__content">
-                  <h4 class="title">
-                    <a href="animal-details.html">Pet Grooming</a>
-                  </h4>
-                  <p>
-                    We will work with you to develop individu alised care plans
-                    including
-                  </p>
-                  <a href="animal-details.html" class="btn border-btn"
-                    >See Details
-                    <img
-                      src="assets/img/icon/right_arrow02.svg"
-                      alt=""
-                      class="injectable"
-                  /></a>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
-              <div class="services__item">
-                <div class="services__shape">
-                  <div class="shape-one">
-                    <img
-                      src="assets/img/images/services_shape01.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                  <div class="shape-two">
-                    <img
-                      src="assets/img/images/services_shape02.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                </div>
-                <div class="services__icon">
-                  <i class="flaticon-vet"></i>
-                  <div class="services__icon-shape">
-                    <img
-                      src="assets/img/images/services_icon_shape.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                </div>
-                <div class="services__content">
-                  <h4 class="title">
-                    <a href="animal-details.html">Pet Veterinary</a>
-                  </h4>
-                  <p>
-                    We will work with you to develop individu alised care plans
-                    including
-                  </p>
-                  <a href="animal-details.html" class="btn border-btn"
-                    >See Details
-                    <img
-                      src="assets/img/icon/right_arrow02.svg"
-                      alt=""
-                      class="injectable"
-                  /></a>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
-              <div class="services__item">
-                <div class="services__shape">
-                  <div class="shape-one">
-                    <img
-                      src="assets/img/images/services_shape01.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                  <div class="shape-two">
-                    <img
-                      src="assets/img/images/services_shape02.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                </div>
-                <div class="services__icon">
-                  <i class="flaticon-spay"></i>
-                  <div class="services__icon-shape">
-                    <img
-                      src="assets/img/images/services_icon_shape.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                </div>
-                <div class="services__content">
-                  <h4 class="title">
-                    <a href="animal-details.html">Pet Surgery</a>
-                  </h4>
-                  <p>
-                    We will work with you to develop individu alised care plans
-                    including
-                  </p>
-                  <a href="animal-details.html" class="btn border-btn"
-                    >See Details
-                    <img
-                      src="assets/img/icon/right_arrow02.svg"
-                      alt=""
-                      class="injectable"
-                  /></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="services__shape-wrap">
-          <img
-            src="assets/img/images/services_shape01.png"
-            alt="img"
-            class="ribbonRotate"
-          />
-          <img
-            src="assets/img/images/services_shape02.png"
-            alt="img"
-            data-aos="fade-up-right"
-            data-aos-delay="800"
-          />
-          <img
-            src="assets/img/images/services_shape03.png"
-            alt="img"
-            data-aos="fade-down-left"
-            data-aos-delay="400"
-          />
-        </div>
-      </section>
-      <!-- services-area-end -->
+    function ageFromDob(dob){
+      if(!dob) return '';
+      const d = new Date(dob);
+      const now = new Date();
+      let yrs = now.getFullYear() - d.getFullYear();
+      const m = now.getMonth() - d.getMonth();
+      if(m < 0 || (m === 0 && now.getDate() < d.getDate())) yrs--;
+      return yrs + ' yrs';
+    }
 
-      <!-- why-we-are-area -->
-      <section class="why__we-are-area">
-        <div class="container">
-          <div class="row align-items-center justify-content-center">
-            <div class="col-lg-6 col-md-8 col-sm-10">
-              <div class="why__we-are-img">
-                <img src="assets/img/images/why_we_are_img.png" alt="" />
-                <div
-                  class="shape shape-one"
-                  data-aos="fade-down-right"
-                  data-aos-delay="500"
-                >
-                  <img
-                    src="assets/img/images/why_shape01.svg"
-                    alt=""
-                    class="injectable"
-                  />
-                </div>
-                <div
-                  class="shape shape-two"
-                  data-aos="fade-up-right"
-                  data-aos-delay="500"
-                >
-                  <img
-                    src="assets/img/images/why_shape02.svg"
-                    alt=""
-                    class="injectable"
-                  />
-                </div>
-                <div
-                  class="shape shape-three"
-                  data-aos="fade-up-left"
-                  data-aos-delay="500"
-                >
-                  <img
-                    src="assets/img/images/why_shape03.svg"
-                    alt=""
-                    class="injectable"
-                  />
-                </div>
-                <div class="shape shape-four ribbonRotate">
-                  <img
-                    src="assets/img/images/why_shape04.svg"
-                    alt=""
-                    class="injectable"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="why__we-are-content">
-                <div class="section__title mb-10">
-                  <span class="sub-title"
-                    >Why We are The Best
-                    <strong class="shake">
-                      <img
-                        src="assets/img/icon/pet_icon02.svg"
-                        alt=""
-                        class="injectable"
-                      />
-                    </strong>
-                  </span>
-                  <h2 class="title">
-                    Pet emergencies <br />
-                    what you need to know.
-                  </h2>
-                </div>
-                <p>
-                  Duis aute irure dolor in reprehenderit in voluptate velit esse
-                  We understand that your furry friend is a treasured member of
-                  your family and deserves pets are the best care and attention
-                  possible.
-                </p>
-                <div class="why__list-box">
-                  <ul class="list-wrap">
-                    <li>
-                      <div class="why__list-box-item">
-                        <div class="why__list-box-item-top">
-                          <div class="icon">
-                            <img
-                              src="assets/img/icon/check_icon.svg"
-                              alt=""
-                              class="injectable"
-                            />
-                          </div>
-                          <h4 class="title">More Experience</h4>
-                        </div>
-                        <p>
-                          Be confident in the treatment plan and your doctor’s
-                          abilities.
-                        </p>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="why__list-box-item">
-                        <div class="why__list-box-item-top">
-                          <div class="icon">
-                            <img
-                              src="assets/img/icon/check_icon.svg"
-                              alt=""
-                              class="injectable"
-                            />
-                          </div>
-                          <h4 class="title">Affordable Pricing</h4>
-                        </div>
-                        <p>
-                          Be confident in the treatment plan and your doctor’s
-                          abilities.
-                        </p>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="why__list-box-item">
-                        <div class="why__list-box-item-top">
-                          <div class="icon">
-                            <img
-                              src="assets/img/icon/check_icon.svg"
-                              alt=""
-                              class="injectable"
-                            />
-                          </div>
-                          <h4 class="title">Modern Pet Training</h4>
-                        </div>
-                        <p>
-                          Be confident in the treatment plan and your doctor’s
-                          abilities.
-                        </p>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="why__list-box-item">
-                        <div class="why__list-box-item-top">
-                          <div class="icon">
-                            <img
-                              src="assets/img/icon/check_icon.svg"
-                              alt=""
-                              class="injectable"
-                            />
-                          </div>
-                          <h4 class="title">Maintain a daily routine</h4>
-                        </div>
-                        <p>
-                          Be confident in the treatment plan and your doctor’s
-                          abilities.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- why-we-are-area-end -->
+    function uid(prefix='id'){ return prefix + Math.random().toString(36).slice(2,9); }
 
-      <!-- counter-area -->
-      <section class="counter__area">
-        <div class="container">
-          <div class="row align-items-center justify-content-center">
-            <div class="col-lg-5 col-md-8 order-0 order-lg-2">
-              <div class="counter__img">
-                <div class="mask-img-wrap">
-                  <img src="assets/img/images/counter_img.jpg" alt="img" />
-                </div>
-                <div class="counter__img-shape">
-                  <img
-                    src="assets/img/images/counter_img_shape.svg"
-                    alt=""
-                    class="injectable"
-                  />
-                </div>
-                <div class="shape">
-                  <img
-                    src="assets/img/images/counter_shape01.png"
-                    alt="img"
-                    class="ribbonRotate"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-7">
-              <div class="counter__content">
-                <div class="section__title white-title mb-10">
-                  <span class="sub-title"
-                    >Your Trust Our Prirority
-                    <strong class="shake">
-                      <img
-                        src="assets/img/icon/pet_icon02.svg"
-                        alt=""
-                        class="injectable"
-                      />
-                    </strong>
-                  </span>
-                  <h2 class="title">
-                    Professional vest care and guaranteed quality
-                  </h2>
-                </div>
-                <p>
-                  Duis aute irure dolor in repreerit in voluptate velit esse We
-                  understand that your furry friend treas ured member of your
-                  pets are.
-                </p>
-                <a href="about.html" class="btn border-btn white-btn"
-                  >Read More
-                  <img
-                    src="assets/img/icon/right_arrow.svg"
-                    alt=""
-                    class="injectable"
-                /></a>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-5 order-3">
-              <div class="counter__item-wrap">
-                <div class="counter__item">
-                  <h2 class="count">
-                    <span class="odometer" data-count="15"></span>+
-                  </h2>
-                  <p>27 years of experience</p>
-                </div>
-                <div class="counter__item">
-                  <h2 class="count">
-                    <span class="odometer" data-count="23"></span>K
-                  </h2>
-                  <p>Our Beloved Clients</p>
-                </div>
-                <div class="counter__item">
-                  <h2 class="count">
-                    <span class="odometer" data-count="15"></span>K+
-                  </h2>
-                  <p>Real Customer Reviews</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="counter__shape">
-          <img
-            src="assets/img/images/counter_shape02.png"
-            alt="img"
-            data-aos="fade-up-left"
-            data-aos-delay="400"
-          />
-        </div>
-      </section>
-      <!-- counter-area-end -->
-
-      <!-- brand-area -->
-      <div class="brand__area">
-        <div class="container">
-          <div class="brand__item-wrap">
-            <div class="swiper brand-active">
-              <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                  <div class="brand__item">
-                    <img src="assets/img/brand/brand_img01.png" alt="img" />
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="brand__item">
-                    <img src="assets/img/brand/brand_img02.png" alt="img" />
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="brand__item">
-                    <img src="assets/img/brand/brand_img03.png" alt="img" />
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="brand__item">
-                    <img src="assets/img/brand/brand_img04.png" alt="img" />
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="brand__item">
-                    <img src="assets/img/brand/brand_img05.png" alt="img" />
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="brand__item">
-                    <img src="assets/img/brand/brand_img06.png" alt="img" />
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="brand__item">
-                    <img src="assets/img/brand/brand_img07.png" alt="img" />
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="brand__item">
-                    <img src="assets/img/brand/brand_img03.png" alt="img" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- brand-area-end -->
-
-      <!-- team-area -->
-      <section class="team__area">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-6">
-              <div class="section__title text-center mb-40">
-                <span class="sub-title"
-                  >WE CHANGE YOUR LIFE & WORLD
-                  <strong class="shake">
-                    <img
-                      src="assets/img/icon/pet_icon02.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </strong>
-                </span>
-                <h2 class="title">
-                  Meet Our Expertise <br />
-                  Pet Doctors
-                </h2>
-              </div>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
-              <div class="team__item">
-                <div class="team__item-img">
-                  <div class="mask-img-wrap">
-                    <img src="assets/img/team/team_img01.jpg" alt="img" />
-                  </div>
-                  <div class="team__item-img-shape">
-                    <div class="shape-one">
-                      <img
-                        src="assets/img/team/team_img_shape01.svg"
-                        alt=""
-                        class="injectable"
-                      />
-                    </div>
-                    <div class="shape-two">
-                      <img
-                        src="assets/img/team/team_img_shape02.svg"
-                        alt=""
-                        class="injectable"
-                      />
-                    </div>
-                  </div>
-                  <div class="team__social">
-                    <ul class="list-wrap">
-                      <li>
-                        <a href="https://www.facebook.com/" target="_blank"
-                          ><i class="fab fa-facebook-f"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://twitter.com/" target="_blank"
-                          ><i class="fab fa-twitter"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.whatsapp.com/" target="_blank"
-                          ><i class="fab fa-whatsapp"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.instagram.com/" target="_blank"
-                          ><i class="fab fa-instagram"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.youtube.com/" target="_blank"
-                          ><i class="fab fa-youtube"></i
-                        ></a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="team__item-content">
-                  <h4 class="title">
-                    <a href="team-details.html">Daria Andaloro</a>
-                  </h4>
-                  <span>Veterinary Technician</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
-              <div class="team__item">
-                <div class="team__item-img">
-                  <div class="mask-img-wrap">
-                    <img src="assets/img/team/team_img02.jpg" alt="img" />
-                  </div>
-                  <div class="team__item-img-shape">
-                    <div class="shape-one">
-                      <img
-                        src="assets/img/team/team_img_shape01.svg"
-                        alt=""
-                        class="injectable"
-                      />
-                    </div>
-                    <div class="shape-two">
-                      <img
-                        src="assets/img/team/team_img_shape02.svg"
-                        alt=""
-                        class="injectable"
-                      />
-                    </div>
-                  </div>
-                  <div class="team__social">
-                    <ul class="list-wrap">
-                      <li>
-                        <a href="https://www.facebook.com/" target="_blank"
-                          ><i class="fab fa-facebook-f"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://twitter.com/" target="_blank"
-                          ><i class="fab fa-twitter"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.whatsapp.com/" target="_blank"
-                          ><i class="fab fa-whatsapp"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.instagram.com/" target="_blank"
-                          ><i class="fab fa-instagram"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.youtube.com/" target="_blank"
-                          ><i class="fab fa-youtube"></i
-                        ></a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="team__item-content">
-                  <h4 class="title">
-                    <a href="team-details.html">Michael Brian</a>
-                  </h4>
-                  <span>Medicine Specialist</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
-              <div class="team__item">
-                <div class="team__item-img">
-                  <div class="mask-img-wrap">
-                    <img src="assets/img/team/team_img03.html" alt="img" />
-                  </div>
-                  <div class="team__item-img-shape">
-                    <div class="shape-one">
-                      <img
-                        src="assets/img/team/team_img_shape01.svg"
-                        alt=""
-                        class="injectable"
-                      />
-                    </div>
-                    <div class="shape-two">
-                      <img
-                        src="assets/img/team/team_img_shape02.svg"
-                        alt=""
-                        class="injectable"
-                      />
-                    </div>
-                  </div>
-                  <div class="team__social">
-                    <ul class="list-wrap">
-                      <li>
-                        <a href="https://www.facebook.com/" target="_blank"
-                          ><i class="fab fa-facebook-f"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://twitter.com/" target="_blank"
-                          ><i class="fab fa-twitter"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.whatsapp.com/" target="_blank"
-                          ><i class="fab fa-whatsapp"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.instagram.com/" target="_blank"
-                          ><i class="fab fa-instagram"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.youtube.com/" target="_blank"
-                          ><i class="fab fa-youtube"></i
-                        ></a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="team__item-content">
-                  <h4 class="title">
-                    <a href="team-details.html">Kenroly Gajon</a>
-                  </h4>
-                  <span>Food Technician</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
-              <div class="team__item">
-                <div class="team__item-img">
-                  <div class="mask-img-wrap">
-                    <img src="assets/img/team/team_img04.html" alt="img" />
-                  </div>
-                  <div class="team__item-img-shape">
-                    <div class="shape-one">
-                      <img
-                        src="assets/img/team/team_img_shape01.svg"
-                        alt=""
-                        class="injectable"
-                      />
-                    </div>
-                    <div class="shape-two">
-                      <img
-                        src="assets/img/team/team_img_shape02.svg"
-                        alt=""
-                        class="injectable"
-                      />
-                    </div>
-                  </div>
-                  <div class="team__social">
-                    <ul class="list-wrap">
-                      <li>
-                        <a href="https://www.facebook.com/" target="_blank"
-                          ><i class="fab fa-facebook-f"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://twitter.com/" target="_blank"
-                          ><i class="fab fa-twitter"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.whatsapp.com/" target="_blank"
-                          ><i class="fab fa-whatsapp"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.instagram.com/" target="_blank"
-                          ><i class="fab fa-instagram"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.youtube.com/" target="_blank"
-                          ><i class="fab fa-youtube"></i
-                        ></a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="team__item-content">
-                  <h4 class="title">
-                    <a href="team-details.html">Lizay Arianya</a>
-                  </h4>
-                  <span>Veterinary Technician</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="team__bottom-content">
-            <p>Our Valuable Expert Doctors Team</p>
-            <a href="team.html" class="btn"
-              >See All Doctors
-              <img
-                src="assets/img/icon/right_arrow.svg"
-                alt=""
-                class="injectable"
-            /></a>
-          </div>
-        </div>
-        <div class="team__shape">
-          <img
-            src="assets/img/team/team_shape.html"
-            alt="img"
-            class="ribbonRotate"
-          />
-        </div>
-      </section>
-      <!-- team-area-end -->
-
-      <!-- testimonial-area -->
-      <section class="testimonial__area">
-        <div class="container">
-          <div class="row align-items-center justify-content-center">
-            <div class="col-lg-6 col-md-8 order-0 order-lg-2">
-              <div class="testimonial__img">
-                <div class="mask-img testimonial__img-mask">
-                  <img src="assets/img/images/testimonial_img.html" alt="img" />
-                </div>
-                <div class="testimonial__img-shape">
-                  <div class="shape-one">
-                    <img
-                      src="assets/img/images/testimonial_img_shape.html"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                  <div class="shape-two">
-                    <img
-                      src="assets/img/images/testimonial_shape03.html"
-                      alt="img"
-                      class="alltuchtopdown"
-                    />
-                  </div>
-                </div>
-                <div class="review__box">
-                  <div class="review__box-shape">
-                    <img
-                      src="assets/img/images/review_shape.html"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                  <div class="review__box-content">
-                    <img
-                      src="assets/img/icon/star.html"
-                      alt=""
-                      class="injectable"
-                    />
-                    <h2 class="title">1500+</h2>
-                    <span>Reviews</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="testimonial__item-wrap">
-                <div class="swiper testimonial-active">
-                  <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                      <div class="testimonial__item">
-                        <div class="testimonial__icon">
-                          <img
-                            src="assets/img/icon/quote.html"
-                            alt=""
-                            class="injectable"
-                          />
-                        </div>
-                        <div class="testimonial__content">
-                          <h2 class="title">Pet Health Important</h2>
-                          <p>
-                            “ Duis aute irure dolor in repreerit in voluptate
-                            velitesse We understand that your furry aute irure
-                            dolor in repreerit in voluptate ute irure dolor in
-                            repreerit in voluptate understand that you ”
-                          </p>
-                          <div class="testimonial__author">
-                            <div class="testimonial__author-thumb">
-                              <img
-                                src="assets/img/images/testi_author01.html"
-                                alt=""
-                              />
-                            </div>
-                            <div class="testimonial__author-content">
-                              <h4 class="title">Uraney Jacke</h4>
-                              <span>Business Study</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="swiper-slide">
-                      <div class="testimonial__item">
-                        <div class="testimonial__icon">
-                          <img
-                            src="assets/img/icon/quote.html"
-                            alt=""
-                            class="injectable"
-                          />
-                        </div>
-                        <div class="testimonial__content">
-                          <h2 class="title">Pet Health Important</h2>
-                          <p>
-                            “ Duis aute irure dolor in repreerit in voluptate
-                            velitesse We understand that your furry aute irure
-                            dolor in repreerit in voluptate ute irure dolor in
-                            repreerit in voluptate understand that you ”
-                          </p>
-                          <div class="testimonial__author">
-                            <div class="testimonial__author-thumb">
-                              <img
-                                src="assets/img/images/testi_author01.html"
-                                alt=""
-                              />
-                            </div>
-                            <div class="testimonial__author-content">
-                              <h4 class="title">Uraney Jacke</h4>
-                              <span>Business Study</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial__shape-wrap">
-          <img
-            src="assets/img/images/testimonial_shape01.html"
-            alt="img"
-            data-aos="fade-down-right"
-            data-aos-delay="400"
-          />
-          <img
-            src="assets/img/images/testimonial_shape02.html"
-            alt="img"
-            data-aos="fade-right"
-            data-aos-delay="400"
-          />
-        </div>
-      </section>
-      <!-- testimonial-area-end -->
-
-      <!-- registration-area -->
-      <section class="registration__area">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="registration__inner-wrap">
-                <h2 class="title">Schedule a visit today!</h2>
-                <div class="shape">
-                  <img src="assets/img/images/registration_shape.html" alt="" />
-                </div>
-                <form action="#">
-                  <div class="row gutter-15">
-                    <div class="col-lg-4 col-md-6">
-                      <div class="form-grp">
-                        <label for="name">Name</label>
-                        <input
-                          id="name"
-                          type="text"
-                          placeholder="Type Full Name"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                      <div class="form-grp select-grp">
-                        <label>Pet Type</label>
-                        <select name="pet_type" class="orderby">
-                          <option value="Select Pet Type">
-                            Select Pet Type
-                          </option>
-                          <option value="Cat">Cat</option>
-                          <option value="Dog">Dog</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                      <div class="form-grp select-grp">
-                        <label>Interest In</label>
-                        <select name="interest" class="orderby">
-                          <option value="Select Service">Select Service</option>
-                          <option value="Pet Training">Pet Training</option>
-                          <option value="Pet Grooming">Pet Grooming</option>
-                          <option value="Care Services">Care Services</option>
-                          <option value="Pet Boarding">Pet Boarding</option>
-                          <option value="Pet Bath">Pet Bath</option>
-                          <option value="Pet Adoption">Pet Adoption</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                      <div class="form-grp">
-                        <label for="date">Date</label>
-                        <input id="date" class="textbox-n" type="date" />
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                      <div class="form-grp">
-                        <label for="time">Time</label>
-                        <input id="time" placeholder="08:00 am - 10:00 am" />
-                        <i class="flaticon-three-o-clock-clock"></i>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                      <div class="form-grp">
-                        <label for="phone">Phone</label>
-                        <input
-                          id="phone"
-                          type="number"
-                          placeholder="+123 888 ...."
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="submit__btn text-center mt-25">
-                    <button type="submit" class="btn">
-                      Start a Reservation
-                      <img
-                        src="assets/img/icon/right_arrow.svg"
-                        alt=""
-                        class="injectable"
-                      />
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- registration-area-end -->
-
-      <!-- blog-post-area -->
-      <section class="blog__post-area">
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-md-8">
-              <div class="section__title mb-40">
-                <span class="sub-title"
-                  >News & Blogs
-                  <strong class="shake">
-                    <img
-                      src="assets/img/icon/pet_icon02.svg"
-                      alt=""
-                      class="injectable"
-                    />
-                  </strong>
-                </span>
-                <h2 class="title">Our Recent Articles</h2>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="view__all-btn text-end mb-40">
-                <a href="blog.html" class="btn btn-two"
-                  >See All Posts
-                  <img
-                    src="assets/img/icon/right_arrow.svg"
-                    alt=""
-                    class="injectable"
-                /></a>
-              </div>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 col-sm-8">
-              <div class="blog__post-item shine-animate-item">
-                <div class="blog__post-thumb">
-                  <div class="blog__post-mask shine-animate">
-                    <a href="blog-details.html"
-                      ><img src="assets/img/blog/blog_post01.html" alt="img"
-                    /></a>
-                    <ul class="list-wrap blog__post-tag">
-                      <li><a href="blog.html">Pet</a></li>
-                      <li><a href="blog.html">Medical</a></li>
-                    </ul>
-                  </div>
-                  <div class="shape">
-                    <img
-                      src="assets/img/blog/blog_img_shape.html"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                </div>
-                <div class="blog__post-content">
-                  <div class="blog__post-meta">
-                    <ul class="list-wrap">
-                      <li>
-                        <i class="flaticon-user"></i>by
-                        <a href="blog-details.html">admin</a>
-                      </li>
-                      <li><i class="flaticon-calendar"></i>25th Aug, 2024</li>
-                    </ul>
-                  </div>
-                  <h2 class="title">
-                    <a href="blog-details.html"
-                      >Clean indoor air as important in controlling asthma</a
-                    >
-                  </h2>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-8">
-              <div class="blog__post-item shine-animate-item">
-                <div class="blog__post-thumb">
-                  <div class="blog__post-mask shine-animate">
-                    <a href="blog-details.html"
-                      ><img src="assets/img/blog/blog_post02.html" alt="img"
-                    /></a>
-                    <ul class="list-wrap blog__post-tag">
-                      <li><a href="blog.html">Care</a></li>
-                    </ul>
-                  </div>
-                  <div class="shape">
-                    <img
-                      src="assets/img/blog/blog_img_shape.html"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                </div>
-                <div class="blog__post-content">
-                  <div class="blog__post-meta">
-                    <ul class="list-wrap">
-                      <li>
-                        <i class="flaticon-user"></i>by
-                        <a href="blog-details.html">admin</a>
-                      </li>
-                      <li><i class="flaticon-calendar"></i>25th Aug, 2024</li>
-                    </ul>
-                  </div>
-                  <h2 class="title">
-                    <a href="blog-details.html"
-                      >Clean indoor air as important in controlling asthma</a
-                    >
-                  </h2>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-8">
-              <div class="blog__post-item shine-animate-item">
-                <div class="blog__post-thumb">
-                  <div class="blog__post-mask shine-animate">
-                    <a href="blog-details.html"
-                      ><img src="assets/img/blog/blog_post03.html" alt="img"
-                    /></a>
-                    <ul class="list-wrap blog__post-tag">
-                      <li><a href="blog.html">Pet Care</a></li>
-                    </ul>
-                  </div>
-                  <div class="shape">
-                    <img
-                      src="assets/img/blog/blog_img_shape.html"
-                      alt=""
-                      class="injectable"
-                    />
-                  </div>
-                </div>
-                <div class="blog__post-content">
-                  <div class="blog__post-meta">
-                    <ul class="list-wrap">
-                      <li>
-                        <i class="flaticon-user"></i>by
-                        <a href="blog-details.html">admin</a>
-                      </li>
-                      <li><i class="flaticon-calendar"></i>25th Aug, 2024</li>
-                    </ul>
-                  </div>
-                  <h2 class="title">
-                    <a href="blog-details.html"
-                      >Clean indoor air as important in controlling asthma</a
-                    >
-                  </h2>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="blog__shape-wrap">
-          <img
-            src="assets/img/blog/blog_shape01.html"
-            alt="img"
-            data-aos="fade-up-right"
-            data-aos-delay="400"
-          />
-          <img
-            src="assets/img/blog/blog_shape02.html"
-            alt="img"
-            class="ribbonRotate"
-          />
-        </div>
-      </section>
-      <!-- blog-post-area-end -->
-
-      <!-- instagram-area -->
-      <div class="instagram__area">
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <div class="instagram__follow-btn">
-                <a href="https://www.instagram.com/" target="_blank"
-                  >Follow Us On Instagram</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="swiper instagram-active">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <div class="instagram__item">
-                  <a href="https://www.instagram.com/" target="_blank"
-                    ><img
-                      src="assets/img/instagram/instagram_img01.html"
-                      alt=""
-                  /></a>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="instagram__item">
-                  <a href="https://www.instagram.com/" target="_blank"
-                    ><img
-                      src="assets/img/instagram/instagram_img02.html"
-                      alt=""
-                  /></a>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="instagram__item">
-                  <a href="https://www.instagram.com/" target="_blank"
-                    ><img
-                      src="assets/img/instagram/instagram_img03.html"
-                      alt=""
-                  /></a>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="instagram__item">
-                  <a href="https://www.instagram.com/" target="_blank"
-                    ><img
-                      src="assets/img/instagram/instagram_img04.html"
-                      alt=""
-                  /></a>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="instagram__item">
-                  <a href="https://www.instagram.com/" target="_blank"
-                    ><img
-                      src="assets/img/instagram/instagram_img05.html"
-                      alt=""
-                  /></a>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="instagram__item">
-                  <a href="https://www.instagram.com/" target="_blank"
-                    ><img
-                      src="assets/img/instagram/instagram_img03.html"
-                      alt=""
-                  /></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- instagram-area-end -->
-    </main>
-    <!-- main-area-end -->
-
-    <!-- footer-area -->
-    <footer>
-      <div class="footer__area">
-        <div class="footer__top fix">
-          <div class="container">
-            <div class="row">
-              <div class="col-xl-3 col-lg-4 col-md-6">
-                <div class="footer__widget">
-                  <div class="footer__logo">
-                    <a href="index-2.html"
-                      ><img src="assets/img/logo/w_logo.html" alt=""
-                    /></a>
-                  </div>
-                  <div class="footer__content">
-                    <p>
-                      555 A, East Manster Street, Ready Halley Neon, Uk 4512
-                    </p>
-                    <a href="tel:0123456789">+00 123 45678 44</a>
-                    <a href="mailto:Supportinfo@gmail.com"
-                      >Supportinfo@gmail.com</a
-                    >
-                  </div>
-                  <div class="footer__social">
-                    <h6 class="title">Follow Us On:</h6>
-                    <ul class="list-wrap">
-                      <li>
-                        <a href="https://www.facebook.com/" target="_blank"
-                          ><i class="fab fa-facebook-f"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://twitter.com/" target="_blank"
-                          ><i class="fab fa-twitter"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.whatsapp.com/" target="_blank"
-                          ><i class="fab fa-whatsapp"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.instagram.com/" target="_blank"
-                          ><i class="fab fa-instagram"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="https://www.youtube.com/" target="_blank"
-                          ><i class="fab fa-youtube"></i
-                        ></a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6">
-                <div class="footer__widget">
-                  <h4 class="footer__widget-title">Quick Links</h4>
-                  <div class="footer__link">
-                    <ul class="list-wrap">
-                      <li><a href="animal.html">Animal Rescue</a></li>
-                      <li><a href="contact.html">Humane Education</a></li>
-                      <li><a href="animal-details.html">Animal Hospital</a></li>
-                      <li><a href="animal.html">Street Animal Feeding</a></li>
-                      <li><a href="index-2.html">Homepage 01</a></li>
-                      <li><a href="pricing.html">Pricing Table</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                <div class="footer__widget">
-                  <h4 class="footer__widget-title">Opening Hours</h4>
-                  <div class="footer__link">
-                    <ul class="list-wrap">
-                      <li>Monday <span>8.00 - 21.00</span></li>
-                      <li>Tuesday <span>8.00 - 21.00</span></li>
-                      <li>Thursday <span>8.00 - 21.00</span></li>
-                      <li>Friday <span>8.00 - 21.00</span></li>
-                      <li>Saturday <span>8.00 - 21.00</span></li>
-                      <li>Sunday <span>8.00 - 21.00</span></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-4 col-lg-4 col-md-6">
-                <div class="footer__widget">
-                  <div class="footer__newsletter">
-                    <h2 class="title">Subscribe to our newsletter</h2>
-                    <div class="shape">
-                      <img
-                        src="assets/img/images/footer_newsletter_shape.html"
-                        alt=""
-                        class="injectable"
-                      />
-                    </div>
-                    <form action="#">
-                      <input
-                        id="email"
-                        type="email"
-                        placeholder="Type Your E-mail"
-                      />
-                      <button class="btn" type="submit">Subscribe Now</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="footer__shape-wrap">
-            <img
-              src="assets/img/images/footer_shape01.html"
-              alt="img"
-              data-aos="fade-up-right"
-              data-aos-delay="400"
-            />
-            <img
-              src="assets/img/images/footer_shape02.html"
-              alt="img"
-              data-aos="fade-up-left"
-              data-aos-delay="400"
-            />
-          </div>
-        </div>
-        <div class="footer__bottom">
-          <div class="container">
-            <div class="row align-items-center">
-              <div class="col-lg-7">
-                <div class="footer__bottom-menu">
-                  <ul class="list-wrap">
-                    <li><a href="contact.html">Support</a></li>
-                    <li><a href="contact.html">Terms & Conditions</a></li>
-                    <li><a href="contact.html">Privacy Policy</a></li>
-                    <li><a href="contact.html">Career</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-5">
-                <div class="copyright-text text-end">
-                  <p>Copyright © 2024. All Rights Reserved.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-    <!-- footer-area-end -->
-
-    <!-- JS here -->
-    <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/jquery.odometer.min.js"></script>
-    <script src="assets/js/jquery.appear.js"></script>
-    <script src="assets/js/swiper-bundle.min.js"></script>
-    <script src="assets/js/jquery.countdown.min.js"></script>
-    <script src="assets/js/svg-inject.min.js"></script>
-    <script src="assets/js/select2.min.js"></script>
-    <script src="assets/js/jquery-ui.min.js"></script>
-    <script src="assets/js/ajax-form.js"></script>
-    <script src="assets/js/wow.min.js"></script>
-    <script src="assets/js/aos.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script>
-      const text = document.querySelector(".circle");
-      text.innerHTML = text.textContent.replace(/\S/g, "<span>$&</span>");
-
-      const element = document.querySelectorAll(".circle span");
-      for (let i = 0; i < element.length; i++) {
-        element[i].style.transform = "rotate(" + i * 14.5 + "deg)";
+    function renderAnimalList(filter=''){
+      animalListEl.innerHTML = '';
+      const list = data.animals.filter(a => a.name.toLowerCase().includes(filter.toLowerCase()));
+      if(list.length === 0){
+        animalListEl.innerHTML = '<div class="text-muted">No animals found.</div>';
+        return;
       }
-    </script>
-    <script>
-      SVGInject(document.querySelectorAll("img.injectable"));
-    </script>
-  </body>
+      list.forEach(a => {
+        const div = document.createElement('div');
+        div.className = 'card p-2 card-animal d-flex align-items-center gap-2';
+        div.innerHTML = `
+          <div class="d-flex align-items-center w-100">
+            <div class="avatar me-3">${(a.name || 'A').charAt(0).toUpperCase()}</div>
+            <div class="flex-grow-1">
+              <div class="fw-bold">${escapeHtml(a.name)}</div>
+              <div class="text-muted small">${escapeHtml(a.species || '')} · ${escapeHtml(a.breed || '')}</div>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-outline-danger me-1" data-delete-animal="${a.id}" title="Delete animal">Delete</button>
+            </div>
+          </div>
+        `;
+        div.addEventListener('click', (ev) => {
+          if(ev.target.closest('[data-delete-animal]')) return;
+          selectedAnimalId = a.id;
+          renderDetails();
+          highlightSelected();
+        });
+        const delBtn = div.querySelector('[data-delete-animal]');
+        delBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if(!confirm(`Delete animal "${a.name}" and all its records?`)) return;
+          data.records = data.records.filter(r => r.animalId !== a.id);
+          data.animals = data.animals.filter(x => x.id !== a.id);
+          if(selectedAnimalId === a.id) selectedAnimalId = data.animals.length ? data.animals[0].id : null;
+          saveData(data);
+          renderAnimalList(searchInput.value);
+          renderDetails();
+        });
+        animalListEl.appendChild(div);
+      });
+      highlightSelected();
+    }
 
-  <!-- Mirrored from themedox.com/demo/petpal/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 13 Nov 2025 18:33:17 GMT -->
+    function highlightSelected(){
+      const cards = animalListEl.querySelectorAll('.card');
+      cards.forEach(c => c.classList.remove('border','border-primary'));
+      const all = animalListEl.querySelectorAll('.card');
+      all.forEach(c => {
+        if(c.innerText.includes(data.animals.find(a => a.id === selectedAnimalId)?.name || '')){
+          c.classList.add('border','border-primary');
+        }
+      });
+    }
+
+    function renderDetails(){
+      const a = data.animals.find(x => x.id === selectedAnimalId);
+      if(!a){
+        detailAvatar.textContent = '-';
+        detailName.textContent = 'Select an animal';
+        detailMeta.textContent = '';
+        recordsContainer.innerHTML = '<div class="text-muted">No animal selected.</div>';
+        btnAddRecord.disabled = true;
+        recordsCount.textContent = '';
+        return;
+      }
+      detailAvatar.textContent = (a.name || 'A').charAt(0).toUpperCase();
+      detailName.textContent = a.name;
+      detailMeta.textContent = `${a.species || 'Unknown'} · ${a.breed || ''} · ${ageFromDob(a.dob)}`;
+      btnAddRecord.disabled = false;
+
+      const recs = data.records.filter(r => r.animalId === a.id).sort((p,q) => new Date(q.date) - new Date(p.date));
+      recordsCount.textContent = `${recs.length} record(s)`;
+      if(recs.length === 0){
+        recordsContainer.innerHTML = '<div class="text-muted">No health records yet.</div>';
+        return;
+      }
+      recordsContainer.innerHTML = '';
+      recs.forEach(r => {
+        const d = document.createElement('div');
+        d.className = 'record d-flex justify-content-between align-items-start';
+        d.innerHTML = `
+          <div>
+            <div class="fw-bold">${escapeHtml(r.title)}</div>
+            <div class="small text-muted">${formatDate(r.date)} · ${escapeHtml(r.vet || '')}</div>
+            <div class="mt-2">${escapeHtml(r.description || '')}</div>
+          </div>
+          <div class="d-flex flex-column align-items-end">
+            <button class="btn btn-sm btn-outline-secondary mb-1 small-btn" data-edit="${r.id}">Edit</button>
+            <button class="btn btn-sm btn-outline-danger small-btn" data-delete="${r.id}">Delete</button>
+          </div>
+        `;
+        d.querySelector('[data-edit]').addEventListener('click', (e) => {
+          e.stopPropagation();
+          openViewRecordsModal(a.id, r.id);
+        });
+        d.querySelector('[data-delete]').addEventListener('click', (e) => {
+          e.stopPropagation();
+          if(!confirm('Delete this record?')) return;
+          data.records = data.records.filter(x => x.id !== r.id);
+          saveData(data);
+          renderDetails();
+        });
+        recordsContainer.appendChild(d);
+      });
+    }
+
+    function formatDate(d){
+      if(!d) return '';
+      const dt = new Date(d + 'T00:00:00');
+      return dt.toLocaleDateString();
+    }
+
+    function escapeHtml(s){ if(!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    openAddAnimalBtn.addEventListener('click', () => {
+      formAddAnimal.reset();
+      addAnimalModal.show();
+    });
+
+    formAddAnimal.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = new FormData(formAddAnimal);
+      const name = (f.get('name') || '').trim();
+      if(!name) return alert('Name is required');
+      const animal = {
+        id: uid('a'),
+        name,
+        species: (f.get('species') || '').trim(),
+        breed: (f.get('breed') || '').trim(),
+        dob: f.get('dob') || ''
+      };
+      data.animals.push(animal);
+      saveData(data);
+      addAnimalModal.hide();
+      renderAnimalList(searchInput.value);
+      selectedAnimalId = animal.id;
+      renderDetails();
+    });
+
+    btnAddRecord.addEventListener('click', () => {
+      if(!selectedAnimalId) return alert('Select an animal first');
+      openViewRecordsModal(selectedAnimalId, null);
+    });
+
+    function openViewRecordsModal(animalId, recordId = null){
+      const a = data.animals.find(x => x.id === animalId);
+      if(!a) return;
+      viewRecordsTitle.textContent = `Health Records — ${a.name}`;
+      viewRecordsList.innerHTML = '';
+      const recs = data.records.filter(r => r.animalId === animalId).sort((p,q)=> new Date(q.date)-new Date(p.date));
+      if(recs.length === 0) viewRecordsList.innerHTML = '<div class="text-muted">No records yet.</div>';
+      else recs.forEach(r => {
+        const el = document.createElement('div');
+        el.className = 'record d-flex justify-content-between align-items-start';
+        el.innerHTML = `
+          <div>
+            <div class="fw-bold">${escapeHtml(r.title)}</div>
+            <div class="small text-muted">${formatDate(r.date)} · ${escapeHtml(r.vet || '')}</div>
+            <div class="mt-2">${escapeHtml(r.description || '')}</div>
+          </div>
+          <div class="d-flex flex-column align-items-end">
+            <button class="btn btn-sm btn-outline-secondary mb-1 small-btn" data-edit="${r.id}">Edit</button>
+            <button class="btn btn-sm btn-outline-danger small-btn" data-delete="${r.id}">Delete</button>
+          </div>
+        `;
+        el.querySelector('[data-edit]').addEventListener('click', () => {
+          fillRecordForm(r);
+        });
+        el.querySelector('[data-delete]').addEventListener('click', () => {
+          if(!confirm('Delete this record?')) return;
+          data.records = data.records.filter(x => x.id !== r.id);
+          saveData(data);
+          openViewRecordsModal(animalId);
+          renderDetails();
+        });
+        viewRecordsList.appendChild(el);
+      });
+
+      formRecord.reset();
+      formRecord.recordId.value = recordId || '';
+      if(recordId){
+        const rec = data.records.find(x => x.id === recordId);
+        if(rec) fillRecordForm(rec);
+      }
+      viewRecordsModal.show();
+    }
+
+    function fillRecordForm(r){
+      formRecord.recordId.value = r.id;
+      formRecord.date.value = r.date;
+      formRecord.title.value = r.title;
+      formRecord.vet.value = r.vet || '';
+      formRecord.description.value = r.description || '';
+    }
+
+    formRecord.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = new FormData(formRecord);
+      const recId = f.get('recordId');
+      const obj = {
+        id: recId || uid('r'),
+        animalId: selectedAnimalId,
+        date: f.get('date') || new Date().toISOString().slice(0,10),
+        title: (f.get('title') || '').trim(),
+        vet: (f.get('vet') || '').trim(),
+        description: (f.get('description') || '').trim()
+      };
+      if(!obj.title){ return alert('Title required'); }
+      if(recId){
+        const idx = data.records.findIndex(x => x.id === recId);
+        if(idx >= 0) data.records[idx] = obj;
+      } else {
+        data.records.push(obj);
+      }
+      saveData(data);
+      openViewRecordsModal(selectedAnimalId); 
+      renderDetails();
+    });
+
+    clearRecordFormBtn.addEventListener('click', () => {
+      formRecord.reset();
+      formRecord.recordId.value = '';
+    });
+
+    searchInput.addEventListener('input', () => renderAnimalList(searchInput.value));
+
+    if(!selectedAnimalId && data.animals.length) selectedAnimalId = data.animals[0].id;
+    renderAnimalList();
+    renderDetails();
+  </script>
+</body>
 </html>
