@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+
+<style>
+/* === Main Page Background === */
+body {
+  background: linear-gradient(to bottom, #9daae9, #c2a9dc); 
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  padding: 50px;
+}
+
+/* === Header === */
+header h1 {
+  color: #62086e; 
+}
+header small {
+  color: #ae2f2f; 
+}
+
+/* === Main Buttons === */
+.btn-main {
+  background: linear-gradient(135deg, #9daae9, #c2a9dc); 
+  color: white;
+  border: none;
+}
+
+/* === Animal Cards === */
+.card-animal {
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+  border-left: 5px solid #ffa726; /* orange accent */
+  border-radius: 10px;
+  padding: 10px;
+  background: #fffde7; /* light cream */
+}
+.card-animal:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* === Avatar Circle === */
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: #fff;
+  font-size: 20px;
+  background: #ccc; /* placeholder, JS will set dynamic gradient */
+}
+
+/* === Details Panel === */
+#detailsPanel {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  background: linear-gradient(135deg, #f1f8e9, #fffde7);
+}
+
+/* === Health Records === */
+.record {
+  border: 1px solid #ffe0b2;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff3e0; /* light orange */
+  transition: background 0.2s;
+}
+.record:hover {
+  background: #e85f848b; /* highlight on hover */
+}
+.record .fw-bold {
+  color: #161515; /* dark orange for titles */
+}
+#recordsCount {
+  color: #161515; /* orange accent */
+}
+
+/* === Inputs and Textareas === */
+input, textarea {
+  border-radius: 8px;
+  border: 1px solid #c5e1a5; /* subtle green border */
+}
+
+/* === Modals === */
+.modal-content {
+  border-radius: 12px;
+  background: linear-gradient(135deg, #fffde7, #e8f5e9); /* light green/yellow */
+}
+
+/* === Small Buttons === */
+.small-btn {
+  font-size: 13px;
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+</style>
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Health Record Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color:#f7fafc; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial; padding:20px; }
+    header{ margin-bottom:18px }
+    .btn-main{ background:#3a2d6a; color:white; border:none }
+    .card-animal{ cursor:pointer; transition:transform .12s; }
+    .card-animal:hover{ transform:translateY(-4px) }
+    .avatar{ width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;background:linear-gradient(135deg,#7fb3ff,#2b7cff); font-size:20px }
+    .record{ border:1px solid #e8eef8; padding:12px; border-radius:8px; background:#fff; }
+    .small-btn{ font-size:13px; padding:6px 8px; border-radius:8px }
+  </style>
+</head>
+<body>
+  <header class="d-flex justify-content-between align-items-center">
+    <div>
+      <h1 class="mb-0">Health Record Management</h1>
+      <small class="text-muted">Manage animal profiles and their health records</small>
+    </div>
+    <div>
+      <button id="openAddAnimal" class="btn btn-main">+ Add Animal</button>
+    </div>
+  </header>
+
+  <div class="row g-3">
+    <div class="col-lg-4">
+      <div class="mb-2 d-flex justify-content-between align-items-center">
+        <strong>Animals</strong>
+        <input id="searchInput" class="form-control form-control-sm" placeholder="Search name..." style="max-width:160px">
+      </div>
+      <div id="animalList" class="d-grid gap-2"></div>
+    </div>
+
+    <div class="col-lg-8">
+      <div id="detailsPanel" class="card p-3">
+        <div class="d-flex gap-3 align-items-center mb-2">
+          <div id="detailAvatar" class="avatar">A</div>
+          <div>
+            <h4 id="detailName" class="mb-0">Select an animal</h4>
+            <div id="detailMeta" class="text-muted">Species · Breed · Age</div>
+          </div>
+          <div class="ms-auto">
+            <button id="btnAddRecord" class="btn btn-main btn-sm" disabled>+ Add Health Record</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <strong>Health Records</strong>
+            <div id="recordsCount" class="text-muted"></div>
+          </div>
+          <div id="recordsContainer" class="d-flex flex-column gap-2">
+            <div class="text-muted">Select an animal to see records.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Animal Modal -->
+  <div class="modal fade" id="addAnimalModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title">Add Animal</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body">
+          <form id="formAddAnimal">
+            <div class="mb-2"><label class="form-label">Name</label><input required name="name" class="form-control"></div>
+            <div class="mb-2"><label class="form-label">Species</label><input name="species" class="form-control"></div>
+            <div class="mb-2"><label class="form-label">Breed</label><input name="breed" class="form-control"></div>
+            <div class="mb-2"><label class="form-label">Date of birth</label><input name="dob" type="date" class="form-control"></div>
+            <div class="d-grid"><button type="submit" class="btn btn-main">Save Animal</button></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Records Modal (dynamic contents) -->
+  <div class="modal fade" id="viewRecordsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 id="viewRecordsTitle" class="modal-title">Health Records</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="viewRecordsList" class="d-flex flex-column gap-2 mb-3"></div>
+          <hr>
+          <h6>Add / Edit Record</h6>
+          <form id="formRecord">
+            <input type="hidden" name="recordId">
+            <div class="row g-2">
+              <div class="col-md-4"><label class="form-label">Date</label><input name="date" type="date" class="form-control" required></div>
+              <div class="col-md-8"><label class="form-label">Veterinarian</label><input name="vet" class="form-control"></div>
+            </div>
+            <div class="mb-2 mt-2"><label class="form-label">Title</label><input name="title" class="form-control" required></div>
+            <div class="mb-2"><label class="form-label">Description</label><textarea name="description" class="form-control" rows="3"></textarea></div>
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-main">Save Record</button>
+              <button type="button" id="clearRecordForm" class="btn btn-outline-secondary">Clear</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const STORAGE_KEY = 'hrm_data_v1';
+    const defaultData = {
+      animals: [
+        { id:'a1', name:'Buddy', species:'Dog', breed:'Golden retriever', dob:'2018-04-15' },
+        { id:'a2', name:'Mittens', species:'Cat', breed:'Tabby', dob:'2020-10-30' }
+      ],
+      records: [
+        { id:'r1', animalId:'a1', date:'2023-04-15', title:'Annual vaccination', description:'Rabies + DHPP', vet:'Dr. Lina' },
+        { id:'r2', animalId:'a1', date:'2023-02-01', title:'Skin rash treatment', description:'Topical cream', vet:'Dr. Omar' }
+      ]
+    };
+
+    function loadData(){
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(defaultData));
+      } catch(e){ return JSON.parse(JSON.stringify(defaultData)); }
+    }
+    function saveData(data){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+    let data = loadData();
+    let selectedAnimalId = data.animals.length ? data.animals[0].id : null;
+
+    const animalListEl = document.getElementById('animalList');
+    const detailAvatar = document.getElementById('detailAvatar');
+    const detailName = document.getElementById('detailName');
+    const detailMeta = document.getElementById('detailMeta');
+    const recordsContainer = document.getElementById('recordsContainer');
+    const recordsCount = document.getElementById('recordsCount');
+    const btnAddRecord = document.getElementById('btnAddRecord');
+    const searchInput = document.getElementById('searchInput');
+
+    const addAnimalModal = new bootstrap.Modal(document.getElementById('addAnimalModal'));
+    const viewRecordsModalEl = document.getElementById('viewRecordsModal');
+    const viewRecordsModal = new bootstrap.Modal(viewRecordsModalEl);
+    const viewRecordsTitle = document.getElementById('viewRecordsTitle');
+    const viewRecordsList = document.getElementById('viewRecordsList');
+    const formAddAnimal = document.getElementById('formAddAnimal');
+    const formRecord = document.getElementById('formRecord');
+    const openAddAnimalBtn = document.getElementById('openAddAnimal');
+    const clearRecordFormBtn = document.getElementById('clearRecordForm');
+
+    function ageFromDob(dob){
+      if(!dob) return '';
+      const d = new Date(dob);
+      const now = new Date();
+      let yrs = now.getFullYear() - d.getFullYear();
+      const m = now.getMonth() - d.getMonth();
+      if(m < 0 || (m === 0 && now.getDate() < d.getDate())) yrs--;
+      return yrs + ' yrs';
+    }
+
+    function uid(prefix='id'){ return prefix + Math.random().toString(36).slice(2,9); }
+
+    function renderAnimalList(filter=''){
+      animalListEl.innerHTML = '';
+      const list = data.animals.filter(a => a.name.toLowerCase().includes(filter.toLowerCase()));
+      if(list.length === 0){
+        animalListEl.innerHTML = '<div class="text-muted">No animals found.</div>';
+        return;
+      }
+      list.forEach(a => {
+        const div = document.createElement('div');
+        div.className = 'card p-2 card-animal d-flex align-items-center gap-2';
+        div.innerHTML = `
+          <div class="d-flex align-items-center w-100">
+            <div class="avatar me-3">${(a.name || 'A').charAt(0).toUpperCase()}</div>
+            <div class="flex-grow-1">
+              <div class="fw-bold">${escapeHtml(a.name)}</div>
+              <div class="text-muted small">${escapeHtml(a.species || '')} · ${escapeHtml(a.breed || '')}</div>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-outline-danger me-1" data-delete-animal="${a.id}" title="Delete animal">Delete</button>
+            </div>
+          </div>
+        `;
+        div.addEventListener('click', (ev) => {
+          if(ev.target.closest('[data-delete-animal]')) return;
+          selectedAnimalId = a.id;
+          renderDetails();
+          highlightSelected();
+        });
+        const delBtn = div.querySelector('[data-delete-animal]');
+        delBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if(!confirm(`Delete animal "${a.name}" and all its records?`)) return;
+          data.records = data.records.filter(r => r.animalId !== a.id);
+          data.animals = data.animals.filter(x => x.id !== a.id);
+          if(selectedAnimalId === a.id) selectedAnimalId = data.animals.length ? data.animals[0].id : null;
+          saveData(data);
+          renderAnimalList(searchInput.value);
+          renderDetails();
+        });
+        animalListEl.appendChild(div);
+      });
+      highlightSelected();
+    }
+
+    function highlightSelected(){
+      const cards = animalListEl.querySelectorAll('.card');
+      cards.forEach(c => c.classList.remove('border','border-primary'));
+      const all = animalListEl.querySelectorAll('.card');
+      all.forEach(c => {
+        if(c.innerText.includes(data.animals.find(a => a.id === selectedAnimalId)?.name || '')){
+          c.classList.add('border','border-primary');
+        }
+      });
+    }
+
+    function renderDetails(){
+      const a = data.animals.find(x => x.id === selectedAnimalId);
+      if(!a){
+        detailAvatar.textContent = '-';
+        detailName.textContent = 'Select an animal';
+        detailMeta.textContent = '';
+        recordsContainer.innerHTML = '<div class="text-muted">No animal selected.</div>';
+        btnAddRecord.disabled = true;
+        recordsCount.textContent = '';
+        return;
+      }
+      detailAvatar.textContent = (a.name || 'A').charAt(0).toUpperCase();
+      detailName.textContent = a.name;
+      detailMeta.textContent = `${a.species || 'Unknown'} · ${a.breed || ''} · ${ageFromDob(a.dob)}`;
+      btnAddRecord.disabled = false;
+
+      const recs = data.records.filter(r => r.animalId === a.id).sort((p,q) => new Date(q.date) - new Date(p.date));
+      recordsCount.textContent = `${recs.length} record(s)`;
+      if(recs.length === 0){
+        recordsContainer.innerHTML = '<div class="text-muted">No health records yet.</div>';
+        return;
+      }
+      recordsContainer.innerHTML = '';
+      recs.forEach(r => {
+        const d = document.createElement('div');
+        d.className = 'record d-flex justify-content-between align-items-start';
+        d.innerHTML = `
+          <div>
+            <div class="fw-bold">${escapeHtml(r.title)}</div>
+            <div class="small text-muted">${formatDate(r.date)} · ${escapeHtml(r.vet || '')}</div>
+            <div class="mt-2">${escapeHtml(r.description || '')}</div>
+          </div>
+          <div class="d-flex flex-column align-items-end">
+            <button class="btn btn-sm btn-outline-secondary mb-1 small-btn" data-edit="${r.id}">Edit</button>
+            <button class="btn btn-sm btn-outline-danger small-btn" data-delete="${r.id}">Delete</button>
+          </div>
+        `;
+        d.querySelector('[data-edit]').addEventListener('click', (e) => {
+          e.stopPropagation();
+          openViewRecordsModal(a.id, r.id);
+        });
+        d.querySelector('[data-delete]').addEventListener('click', (e) => {
+          e.stopPropagation();
+          if(!confirm('Delete this record?')) return;
+          data.records = data.records.filter(x => x.id !== r.id);
+          saveData(data);
+          renderDetails();
+        });
+        recordsContainer.appendChild(d);
+      });
+    }
+
+    function formatDate(d){
+      if(!d) return '';
+      const dt = new Date(d + 'T00:00:00');
+      return dt.toLocaleDateString();
+    }
+
+    function escapeHtml(s){ if(!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    openAddAnimalBtn.addEventListener('click', () => {
+      formAddAnimal.reset();
+      addAnimalModal.show();
+    });
+
+    formAddAnimal.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = new FormData(formAddAnimal);
+      const name = (f.get('name') || '').trim();
+      if(!name) return alert('Name is required');
+      const animal = {
+        id: uid('a'),
+        name,
+        species: (f.get('species') || '').trim(),
+        breed: (f.get('breed') || '').trim(),
+        dob: f.get('dob') || ''
+      };
+      data.animals.push(animal);
+      saveData(data);
+      addAnimalModal.hide();
+      renderAnimalList(searchInput.value);
+      selectedAnimalId = animal.id;
+      renderDetails();
+    });
+
+    btnAddRecord.addEventListener('click', () => {
+      if(!selectedAnimalId) return alert('Select an animal first');
+      openViewRecordsModal(selectedAnimalId, null);
+    });
+
+    function openViewRecordsModal(animalId, recordId = null){
+      const a = data.animals.find(x => x.id === animalId);
+      if(!a) return;
+      viewRecordsTitle.textContent = `Health Records — ${a.name}`;
+      viewRecordsList.innerHTML = '';
+      const recs = data.records.filter(r => r.animalId === animalId).sort((p,q)=> new Date(q.date)-new Date(p.date));
+      if(recs.length === 0) viewRecordsList.innerHTML = '<div class="text-muted">No records yet.</div>';
+      else recs.forEach(r => {
+        const el = document.createElement('div');
+        el.className = 'record d-flex justify-content-between align-items-start';
+        el.innerHTML = `
+          <div>
+            <div class="fw-bold">${escapeHtml(r.title)}</div>
+            <div class="small text-muted">${formatDate(r.date)} · ${escapeHtml(r.vet || '')}</div>
+            <div class="mt-2">${escapeHtml(r.description || '')}</div>
+          </div>
+          <div class="d-flex flex-column align-items-end">
+            <button class="btn btn-sm btn-outline-secondary mb-1 small-btn" data-edit="${r.id}">Edit</button>
+            <button class="btn btn-sm btn-outline-danger small-btn" data-delete="${r.id}">Delete</button>
+          </div>
+        `;
+        el.querySelector('[data-edit]').addEventListener('click', () => {
+          fillRecordForm(r);
+        });
+        el.querySelector('[data-delete]').addEventListener('click', () => {
+          if(!confirm('Delete this record?')) return;
+          data.records = data.records.filter(x => x.id !== r.id);
+          saveData(data);
+          openViewRecordsModal(animalId);
+          renderDetails();
+        });
+        viewRecordsList.appendChild(el);
+      });
+
+      formRecord.reset();
+      formRecord.recordId.value = recordId || '';
+      if(recordId){
+        const rec = data.records.find(x => x.id === recordId);
+        if(rec) fillRecordForm(rec);
+      }
+      viewRecordsModal.show();
+    }
+
+    function fillRecordForm(r){
+      formRecord.recordId.value = r.id;
+      formRecord.date.value = r.date;
+      formRecord.title.value = r.title;
+      formRecord.vet.value = r.vet || '';
+      formRecord.description.value = r.description || '';
+    }
+
+    formRecord.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = new FormData(formRecord);
+      const recId = f.get('recordId');
+      const obj = {
+        id: recId || uid('r'),
+        animalId: selectedAnimalId,
+        date: f.get('date') || new Date().toISOString().slice(0,10),
+        title: (f.get('title') || '').trim(),
+        vet: (f.get('vet') || '').trim(),
+        description: (f.get('description') || '').trim()
+      };
+      if(!obj.title){ return alert('Title required'); }
+      if(recId){
+        const idx = data.records.findIndex(x => x.id === recId);
+        if(idx >= 0) data.records[idx] = obj;
+      } else {
+        data.records.push(obj);
+      }
+      saveData(data);
+      openViewRecordsModal(selectedAnimalId); 
+      renderDetails();
+    });
+
+    clearRecordFormBtn.addEventListener('click', () => {
+      formRecord.reset();
+      formRecord.recordId.value = '';
+    });
+
+    searchInput.addEventListener('input', () => renderAnimalList(searchInput.value));
+
+    if(!selectedAnimalId && data.animals.length) selectedAnimalId = data.animals[0].id;
+    renderAnimalList();
+    renderDetails();
+  </script>
+</body>
+</html>
