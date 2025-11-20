@@ -1,0 +1,82 @@
+body {
+  background: linear-gradient(to bottom, #9daae9, #c2a9dc);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  padding: 20px;
+}
+
+header h1 {
+  color: #3CA3C2;
+}
+header small {
+  color: #ae2f2f;
+}
+
+.btn-main {
+  background: linear-gradient(135deg, #9daae9, #c2a9dc);
+  color: white;
+  border: none;
+}
+
+.card-animal {
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+  border-left: 5px solid #ffa726;
+  border-radius: 10px;
+  padding: 10px;
+  background: #fffde7;
+}
+.card-animal:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: #fff;
+  font-size: 20px;
+  background: linear-gradient(135deg,#7fb3ff,#2b7cff);
+}
+
+#detailsPanel {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  background: linear-gradient(135deg, #f1f8e9, #fffde7);
+}
+
+.record {
+  border: 1px solid #ffe0b2;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff3e0;
+  transition: background 0.2s;
+}
+.record:hover {
+  background: #e85f848b;
+}
+.record .fw-bold {
+  color: #161515;
+}
+#recordsCount {
+  color: #161515;
+}
+
+input, textarea, select {
+  border-radius: 8px !important;
+  border: 1px solid #c5e1a5 !important;
+}
+
+.modal-content {
+  border-radius: 12px;
+  background: linear-gradient(135deg, #fffde7, #e8f5e9);
+}
+
+.small-btn {
+  font-size: 13px;
+  padding: 6px 8px;
+  border-radius: 8px;
+}

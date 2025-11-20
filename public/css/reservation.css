@@ -1,0 +1,77 @@
+/* Calendar date strip */
+.date-strip {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 10px 0;
+}
+
+.date-item {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #f3f3f3;
+  cursor: pointer;
+  text-align: center;
+  min-width: 80px;
+  font-size: 13px;
+  transition: 0.2s ease;
+}
+
+.date-item:hover {
+  background: #e0e0e0;
+}
+
+.date-item.selected {
+  background: #24a36d;
+  color: #ffffff;
+}
+
+/* Timeslots */
+.slots-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.slot-btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s ease;
+}
+
+.slot-btn:hover {
+  background: #f3f3f3;
+}
+
+.slot-btn.selected {
+  background: #24a36d;
+  color: #ffffff;
+  border-color: #24a36d;
+}
+
+/* Booked slot = disabled */
+.slot-btn.booked {
+  background: #cccccc;
+  color: #666666;
+  border-color: #bbbbbb;
+  cursor: not-allowed;
+}
+
+/* Helper text */
+.slot-helper {
+  font-size: 13px;
+  color: #777;
+  margin-top: 5px;
+}
+
+/* Section titles for time periods */
+.timeslot-group h5 {
+  font-size: 15px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
