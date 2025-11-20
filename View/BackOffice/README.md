@@ -1,154 +1,179 @@
-# TailAdmin - Free Tailwind Admin Dashboard Template
+# [Soft UI Dashboard Tailwind](http://demos.creative-tim.com/soft-ui-dashboard-tailwind/pages/dashboard.html?ref=readme-sudt) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?url=https://www.creative-tim.com/product/soft-ui-dashboard-tailwind&text=Check%20Soft%20UI%20Dashboard%20Tailwind%20made%20by%20@CreativeTim%20#webdesign%20#dashboard%20#softdesign%20#html%20https://www.creative-tim.com/product/soft-ui-dashboard-tailwind) [![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/FhCJCaHdQa)
 
-TailAdmin is a high-quality, open-source, and **free Tailwind CSS admin template** that is perfect for creating data-rich backends,
-powerful web applications and dashboard-admin projects.
+![version](https://img.shields.io/badge/version-1.0.5-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/soft-ui-dashboard-tailwind.svg)](https://github.com/creativetimofficial/soft-ui-dashboard-tailwind/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/soft-ui-dashboard-tailwind.svg)](https://github.com/creativetimofficial/soft-ui-dashboard-tailwind/issues?q=is%3Aissue+is%3Aclosed)
 
-![TailAdmin Dashboard Preview](./banner.png)
+![Image](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-dashboard/soft-ui-dashboard-tailwind.jpg)
 
-## Overview
+Most complex and innovative Dashboard Made by [Creative Tim](https://creative-tim.com/). Check our latest Free TailwindCSS Dashboard.
 
-TailAdmin provides essential UI components and layouts for building feature-rich, data-driven admin dashboards and control panels. It's built using:
+Designed for those who like bold elements and beautiful websites. Made of hundred of elements, designed blocks and fully coded pages, Soft UI Dashboard Tailwind is ready to help you create stunning websites and webapps.
 
-- HTML
-- Alpine.js
-- Tailwind CSS
-- and Webpack (for bundling)
+We created many examples for pages like Sign In, Profile and so on. Just choose between a Basic Design, an illustration or a cover and you are good to go!
 
-### Quick Links
+**Fully Coded Elements**
 
-- [✨ Visit Website](https://tailadmin.com)
-- [📄 Documentation](https://tailadmin.com/docs)
-- [⬇️ Download](https://tailadmin.com/download)
-- [🖌️ Figma Design File (Community Edition)](https://www.figma.com/community/file/1463141366275764364)
-- [⚡ Get PRO Version](https://tailadmin.com/pricing)
+Soft UI Dashboard Tailwind is built with over 70 frontend individual elements, like buttons, inputs, navbars, navtabs, cards or alerts, giving you the freedom of choosing and combining. All components can take variations in color, that you can easily modify using SASS files and classes.
 
-### Demos
+You will save a lot of time going from prototyping to full-functional code, because all elements are implemented.
+This Free TailwindCSS Dashboard is coming with prebuilt design blocks, so the development process is seamless,
+switching from our pages to the real website is very easy to be done.
 
-- [Free Version](https://free-demo.tailadmin.com/)
-- [Pro Version](https://demo.tailadmin.com)
+View [all components here](https://www.creative-tim.com/learning-lab/tailwind/html/alert/soft-ui-dashboard/?ref=readme-sudt).
 
-### Other Versions
+**Documentation built by Developers**
 
-- [Next.js Version](https://github.com/TailAdmin/free-nextjs-admin-dashboard)
-- [React.js Version](https://github.com/TailAdmin/free-react-tailwind-admin-dashboard)
-- [Vue.js Version](https://github.com/TailAdmin/vue-tailwind-admin-dashboard)
+Each element is well presented in a very complex documentation.
+You can read more about the <a href="https://www.creative-tim.com/learning-lab/tailwind/html/quick-start/soft-ui-dashboard/?ref=readme-sudt" target="_blank">documentation here</a>.
 
-## Installation
+**Example Pages**
 
-### Prerequisites
+If you want to get inspiration or just show something directly to your clients,
+you can jump start your development with our pre-built example pages. You will be able
+to quickly set up the basic structure for your web project.
+View <a href="https://demos.creative-tim.com/soft-ui-dashboard-tailwind/pages/dashboard.html" target="_blank">example pages here</a>.
 
-To get started with TailAdmin, ensure you have the following prerequisites installed and set up:
+**HELPFUL LINKS**
 
-- Node.js 18.x or later
+- View <a href="https://github.com/creativetimofficial/soft-ui-dashboard-tailwind" target="_blank">Github Repository</a>
 
-### Cloning the Repository
+- Check <a href="https://www.creative-tim.com/faq" target="_blank">FAQ Page</a>
 
-Clone the repository using the following command:
+#### Special thanks
+During the development of this dashboard, we have used many existing resources from awesome developers. We want to thank them for providing their tools open source:
+- [TailwindCSS](https://tailwindcss.com/)- Open source front end framework
+- [Popper.js](https://popper.js.org/) - Kickass library used to manage poppers
+- [Nepcha Analytics](https://nepcha.com/?ref=readme) for the analytics tool. Nepcha is already integrated with Soft UI Dashboard Tailwind. You can use it to gain insights into your sources of traffic.
 
-```bash
-git clone https://github.com/TailAdmin/tailadmin-free-tailwind-dashboard-template.git
+Let us know your thoughts below. And good luck with development!
+
+## Table of Contents
+
+* [Versions](#versions)
+* [Demo](#demo)
+* [Quick Start](#quick-start)
+* [Deploy](#deploy)
+* [Documentation](#documentation)
+* [File Structure](#file-structure)
+* [Browser Support](#browser-support)
+* [Resources](#resources)
+* [Reporting Issues](#reporting-issues)
+* [Technical Support or Questions](#technical-support-or-questions)
+* [Licensing](#licensing)
+* [Useful Links](#useful-links)
+
+## Versions
+
+[<img src="https://s3.amazonaws.com/creativetim_bucket/github/html.png" width="60" height="60" />](https://www.creative-tim.com/product/soft-ui-dashboard-tailwind?ref=readme-sudt)
+
+| HTML |
+| --- |
+| [![Soft UI Dashboard Tailwind HTML](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-dashboard/soft-ui-dashboard-tailwind.jpg)](http://demos.creative-tim.com/soft-ui-dashboard-tailwind/pages/dashboard.html?ref=readme-sudt)
+
+## Demo
+
+- [Profile page](http://demos.creative-tim.com/soft-ui-dashboard-tailwind/pages/profile.html?ref=readme-sudt)
+- [Sign in page](http://demos.creative-tim.com/soft-ui-dashboard-tailwind/pages/sign-in.html?ref=readme-sudt)
+- [Sign up page](https://demos.creative-tim.com/soft-ui-dashboard-tailwind/pages/sign-up.html?ref=readme-sudt)
+
+[View More](https://demos.creative-tim.com/soft-ui-dashboard-tailwind/pages/dashboard.html?ref=readme-sudt).
+
+## Quick start
+
+Quick start options:
+
+- Download from [Creative Tim](https://www.creative-tim.com/product/soft-ui-dashboard-tailwind?ref=readme-sudt).
+
+## Deploy
+
+:rocket: You can deploy your own version of the template to Genezio with one click:
+
+[![Deploy to Genezio](https://raw.githubusercontent.com/Genez-io/graphics/main/svg/deploy-button.svg)](https://app.genez.io/start/deploy?repository=https://github.com/creativetimofficial/soft-ui-dashboard-tailwind&utm_source=github&utm_medium=referral&utm_campaign=github-creativetim&utm_term=deploy-project&utm_content=button-head)
+
+## Terminal Commands
+
+1. Download and Install NodeJs from [NodeJs Official Page](https://nodejs.org/en/download/).
+2. Navigate to the root / directory and run npm install to install our local dependencies.
+
+## Documentation
+The documentation for the Soft UI Dashboard is hosted at our [website](https://www.creative-tim.com/learning-lab/tailwind/html/quick-start/soft-ui-dashboard/?ref=readme-sudt).
+
+### What's included
+
+Within the download you'll find the following directories and files:
+
+```
+soft-ui-dashboard-tailwind
+├── build
+│   ├── assets
+│   │   ├── css
+│   │   │   ├── soft-ui-dashboard-tailwind.css
+│   │   │   ├── soft-ui-dashboard-tailwind.min.css
+│   │   ├── fonts
+│   │   ├── img
+│   │   └── js
+│   │       ├── plugins
+│   │       ├── soft-ui-dashboard-tailwind.js
+│   │       └── soft-ui-dashboard-tailwind.min.js
+│   ├── docs
+│   │   └── documentation.html
+│   ├── index.html
+│   └── pages
+├── package.json
+├── src
+│   └── styles.css
+└── tailwind.config.js
+
 ```
 
-> Windows Users: place the repository near the root of your drive if you face issues while cloning.
+## Browser Support
 
-1. Install dependencies:
+At present, we officially aim to support the last two versions of the following browsers:
 
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
+<img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/chrome.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/firefox.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/edge.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/safari.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/opera.png" width="64" height="64">
 
-2. Start the development server:
-   ```bash
-   npm run start
-   # or
-   yarn start
-   ```
+## Resources
+- [Live Preview](https://demos.creative-tim.com/soft-ui-dashboard-tailwind/pages/dashboard.html?ref=readme-sudt)
+- [Download Page](https://www.creative-tim.com/product/soft-ui-dashboard-tailwind?ref=readme-sudt)
+- Documentation is [here](https://www.creative-tim.com/learning-lab/tailwind/html/quick-start/soft-ui-dashboard/?ref=readme-sudt)
+- [License Agreement](https://www.creative-tim.com/license?ref=readme-sudt)
+- [Support](https://www.creative-tim.com/contact-us?ref=readme-sudt)
+- Issues: [Github Issues Page](https://github.com/creativetimofficial/soft-ui-dashboard-tailwind/issues)
+- [Nepcha Analytics](https://nepcha.com/?ref=readme) - Analytics tool for your website
 
-## Components
+## Reporting Issues
+We use GitHub Issues as the official bug tracker for the Soft UI Dashboard Tailwind. Here are some advices for our users that want to report an issue:
 
-TailAdmin is a pre-designed starting point for building a web-based dashboard using HTML, Alpine.js and Tailwind CSS. The template includes:
+1. Make sure that you are using the latest version of the Soft UI Dashboard. Check the CHANGELOG from your dashboard on our [website](https://www.creative-tim.com/product/soft-ui-dashboard-tailwind?ref=readme-sudt).
+2. Providing us reproducible steps for the issue will shorten the time it takes for it to be fixed.
+3. Some issues may be browser specific, so specifying in what browser you encountered the issue might help.
 
-- Sophisticated and accessible sidebar
-- Data visualization components
-- Prebuilt profile management and 404 page
-- Tables and Charts(Line and Bar)
-- Authentication forms and input elements
-- Alerts, Dropdowns, Modals, Buttons and more
-- Can't forget Dark Mode 🕶️
+## Technical Support or Questions
 
-## Feature Comparison
+If you have questions or need help integrating the product please [contact us](https://www.creative-tim.com/contact-us?ref=readme-sudt) instead of opening an issue.
 
-### Free Version
+## Licensing
 
-- 1 Unique Dashboard
-- 30+ dashboard components
-- 50+ UI elements
-- Basic Figma design files
-- Community support
+- Copyright 2023 [Creative Tim](https://www.creative-tim.com?ref=readme-sudt)
+- Creative Tim [license](https://www.creative-tim.com/license?ref=readme-sudt)
 
-### Pro Version
+## Useful Links
 
-- 7 Unique Dashboards: Analytics, Ecommerce, Marketing, CRM, Stocks (more coming soon)
-- 500+ dashboard components and UI elements
-- Complete Figma design system file
-- Email support
+- [More products](https://www.creative-tim.com/templates?ref=readme-sudt) from Creative Tim
 
-To learn more about pro version features and pricing, visit our [pricing page](https://tailadmin.com/pricing).
+- [Tutorials](https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w)
 
-## Update Logs
+- [Freebies](https://www.creative-tim.com/bootstrap-themes/free?ref=readme-sudt) from Creative Tim
 
-### Version 2.0.1 - [February 27, 2025]
+- [Affiliate Program](https://www.creative-tim.com/affiliates/new?ref=readme-sudt) (earn money)
 
-#### Update Overview
+##### Social Media
 
-- Upgraded to Tailwind CSS v4 for better performance and efficiency.
-- Updated class usage to match the latest syntax and features.
-- Replaced deprecated class and optimized styles.
+Twitter: <https://twitter.com/CreativeTim>
 
-#### Next Steps
+Facebook: <https://www.facebook.com/CreativeTim>
 
-- Run npm install or yarn install to update dependencies.
-- Check for any style changes or compatibility issues.
-- Refer to the Tailwind CSS v4 [Migration Guide](https://tailwindcss.com/docs/upgrade-guide) on this release. if needed.
-- This update keeps the project up to date with the latest Tailwind improvements. 🚀
+Dribbble: <https://dribbble.com/creativetim>
 
-### Version 2.0.0 - [February 2025]
+Instagram: <https://instagram.com/creativetimofficial>
 
-Major update with comprehensive redesign and new features.
-
-#### Major Improvements
-
-- Complete UI redesign of all pages and components
-- Enhanced user interface with new elements
-- Improved responsiveness and accessibility
-- New features: collapsible sidebar, chat, and calendar
-- Updated data visualization components
-
-#### New Features
-
-- Redesigned dashboards (Ecommerce, Analytics, Marketing, CRM)
-- Enhanced navigation with improved header and breadcrumbs
-- Advanced table components with sorting and filtering
-- New UI components (Avatar, Alert, Ribbon)
-- Full-featured calendar with drag-and-drop
-
-#### Breaking Changes
-
-- Updated sidebar component API
-- New charting library implementation
-- Revised authentication system
-- **Deprecations:** SimpleTable component and legacy icon set
-
-#### Previous Versions
-
-For detailed changelogs of previous versions (1.0.0 - 1.3.0), visit our [documentation](https://tailadmin.com/docs/update-logs/).
-
-## License
-
-The community edition of TailAdmin is released under the MIT License.
-
-## Support
-
-If you find this project helpful, please consider giving it a star on GitHub. Your support helps us continue developing and maintaining this template.
+TikTok: <https://tiktok.com/@creative.tim>
