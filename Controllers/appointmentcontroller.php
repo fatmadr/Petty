@@ -4,6 +4,7 @@ session_start();
 require_once __DIR__ . '/../Config/database.php';
 require_once __DIR__ . '/../Models/appointment.php';
 
+
 $db = (new Database())->connect();
 $controller = new AppointmentController($db);
 
@@ -49,7 +50,7 @@ class AppointmentController {
         $stmt = $model->getAllByOwner($_SESSION['user_id']);
         $appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        include __DIR__ . '/../../views/frontoffice/appointment_list.php';
+        include __DIR__ . '/../View/FrontOffice/appointment_list.php';
     }
 
     // Show single appointment
@@ -60,7 +61,7 @@ class AppointmentController {
         $model->appointment_id = (int)$_GET['id'];
         $appointment = $model->getOne();
 
-        include __DIR__ . '/../../views/frontoffice/appointment_show.php';
+        include __DIR__ . '/../View/FrontOffice/appointment_show.php';
     }
 
     // Edit form
@@ -71,19 +72,19 @@ class AppointmentController {
         $model->appointment_id = (int)$_GET['id'];
         $appointment = $model->getOne();
 
-        include __DIR__ . '/../../views/frontoffice/appointment_edit.php';
+        include __DIR__ . '/../View/FrontOffice/appointment_edit.php';
     }
+
 
     // Handle create (from reservation.php)
     public function store() {
+
         if (!isset($_SESSION['user_id'])) {
             die("Not logged in");
         }
 
         $errors = [];
 
-        $patient_name  = trim($_POST['patient_name']);
-        $patient_phone = trim($_POST['patient_phone']);
         $species       = trim($_POST['species']);
         $visit_reason  = trim($_POST['visit_reason']);
         $appointment_date = trim($_POST['appointment_date']);
@@ -93,8 +94,6 @@ class AppointmentController {
         $is_emergency  = isset($_POST['is_emergency']) ? (int)$_POST['is_emergency'] : 0;
         $notify_if_earlier = isset($_POST['notify_if_earlier']) ? 1 : 0;
 
-        if ($patient_name === "") $errors[] = "Patient name is required.";
-        if ($patient_phone === "") $errors[] = "Phone is required.";
         if ($species === "") $errors[] = "Species is required.";
         if ($visit_reason === "") $errors[] = "Reason is required.";
         if ($appointment_date === "") $errors[] = "Date is required.";
@@ -108,21 +107,24 @@ class AppointmentController {
         if (!empty($errors)) {
             echo "<h3>Validation errors:</h3><ul>";
             foreach ($errors as $e) echo "<li>".htmlspecialchars($e)."</li>";
-            echo "</ul><a href='../../views/frontoffice/reservation.php'>Back</a>";
+            echo "</ul><a href='../../View/FrontOffice/reservation.php'>Back</a>";
             exit;
         }
 
         // For the time we can get it from the timeslot
-        $stmt = $this->db->prepare("SELECT start_time FROM timeslots WHERE timeslot_id = ?");
+        $stmt = $this->db->prepare("SELECT start_time FROM timeslots_default WHERE template_id = ?");
         $stmt->execute([$timeslot_id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
         if (!$row) {
             die("Invalid timeslot");
         }
+
         $appointment_time = $row['start_time'];
 
+
         $model = new Appointment($this->db);
-        $model->pet_owner_id = $_SESSION['user_id'];
+        $model->user_id = $_SESSION['user_id'];
         $model->vet_id = $vet_id;
         $model->timeslot_id = $timeslot_id;
         $model->appointment_date = $appointment_date;
@@ -132,8 +134,6 @@ class AppointmentController {
         $model->is_emergency = $is_emergency;
         $model->first_visit = $first_visit;
         $model->species = $species;
-        $model->patient_name = $patient_name;
-        $model->patient_phone = $patient_phone;
         $model->notify_if_earlier = $notify_if_earlier;
 
         $model->create();
@@ -149,14 +149,12 @@ class AppointmentController {
 
         $model = new Appointment($this->db);
         $model->appointment_id = (int)$_POST['appointment_id'];
-        $model->pet_owner_id   = $_SESSION['user_id'];
+        $model->user_id   = $_SESSION['user_id'];
 
         $model->visit_reason   = trim($_POST['visit_reason']);
         $model->is_emergency   = isset($_POST['is_emergency']) ? (int)$_POST['is_emergency'] : 0;
         $model->first_visit    = isset($_POST['first_visit']) ? (int)$_POST['first_visit'] : 0;
         $model->species        = trim($_POST['species']);
-        $model->patient_name   = trim($_POST['patient_name']);
-        $model->patient_phone  = trim($_POST['patient_phone']);
         $model->notify_if_earlier = isset($_POST['notify_if_earlier']) ? 1 : 0;
 
         $model->update();
@@ -172,7 +170,7 @@ class AppointmentController {
 
         $model = new Appointment($this->db);
         $model->appointment_id = (int)$_GET['id'];
-        $model->pet_owner_id   = $_SESSION['user_id'];
+        $model->user_id   = $_SESSION['user_id'];
         $model->delete();
 
         header("Location: AppointmentController.php?action=index");

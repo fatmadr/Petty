@@ -1,50 +1,39 @@
 <?php
-    session_start();
-
-    // Example vet id – in real app this comes from vet profile page or selection
-    $vetId = 1;
-
-    // Fake logged-in pet owner for demo
-    if (!isset($_SESSION['user_id'])) {
-        $_SESSION['user_id'] = 1;    // The id of your test user
-    }
+if (!isset($_SESSION)) session_start();
+if (!isset($appointment)) die("Not found");
 ?>
-<!doctype html>
-<html class="no-js" lang="en">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Petpal - Pet Care and Pet Shop HTML Template</title>
-    <meta name="description" content="Petpal - Pet Care and Pet Shop HTML Template">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Edit Appointment</title>
+    <link rel="stylesheet" href="/petty/View/FrontOffice/assets/css/reservation.css">
 
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+     <link rel="shortcut icon" type="image/x-icon" href="/petty/View/FrontOffice/assets/img/favicon.png">
 
     <!-- CSS here -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/animate.min.css">
-    <link rel="stylesheet" href="assets/css/magnific-popup.css">
-    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/css/flaticon_pet_care.css">
-    <link rel="stylesheet" href="assets/css/odometer.css">
-    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
-    <link rel="stylesheet" href="assets/css/select2.min.css">
-    <link rel="stylesheet" href="assets/css/jquery-ui.css">
-    <link rel="stylesheet" href="assets/css/aos.css">
-    <link rel="stylesheet" href="assets/css/default.css">
-    <link rel="stylesheet" href="assets/css/main.css">
-    <!-- Custom styles for reservation page -->
-    <link rel="stylesheet" href="assets/css/reservation.css">
+    <link rel="stylesheet" href="/petty/View/FrontOffice/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/petty/View/FrontOffice/assets/css/animate.min.css">
+    <link rel="stylesheet" href="/petty/View/FrontOffice/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/petty/View/FrontOffice/assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/petty/View/FrontOffice/assets/css/flaticon_pet_care.css">
+    <link rel="stylesheet" href="/petty/View/FrontOffice/assets/css/odometer.css">
+    <link rel="stylesheet" href="/petty/View/FrontOffice/assets/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="/petty/View/FrontOffice/assets/css/select2.min.css">
+    <link rel="stylesheet" href="/petty/View/FrontOffice/assets/css/jquery-ui.css">
+    <link rel="stylesheet" href="/petty/View/FrontOffice/assets/css/aos.css">
+    <link rel="stylesheet" href="/petty/View/FrontOffice/assets/css/default.css">
+    <link rel="stylesheet" href="/petty/View/FrontOffice/assets/css/main.css">
+    
 </head>
 
 <body>
 
-    <!--Preloader-->
+<!--Preloader-->
     <div id="preloader">
         <div id="loader" class="loader">
             <div class="loader-container">
-                <div class="loader-icon"><img src="assets/img/logo/preloader.svg" alt="Preloader"></div>
+                <div class="loader-icon"><img src="/petty/View/FrontOffice/assets/img/logo/preloader.svg" alt="Preloader"></div>
             </div>
         </div>
     </div>
@@ -104,7 +93,7 @@
                                 </div>
                                 <div class="col-xl-2 col-md-4">
                                     <div class="logo text-center">
-                                        <a href="index.html"><img src="assets/img/logo/w_logo.png" alt="Logo"></a>
+                                        <a href="index.html"><img src="/petty/View/FrontOffice/assets/img/logo/w_logo.png" alt="Logo"></a>
                                     </div>
                                 </div>
                                 <div class="col-xl-5 col-md-8">
@@ -137,7 +126,7 @@
                             <nav class="tgmobile__menu-box">
                                 <div class="close-btn"><i class="fas fa-times"></i></div>
                                 <div class="nav-logo">
-                                    <a href="index.html"><img src="assets/img/logo/logo.png" alt="Logo"></a>
+                                    <a href="index.html"><img src="/petty/View/FrontOffice/assets/img/logo/logo.png" alt="Logo"></a>
                                 </div>
                                 <div class="tgmobile__search">
                                     <form action="#">
@@ -195,7 +184,7 @@
     </header>
     <!-- header-area-end -->
 
-    <!-- main-area -->
+     <!-- main-area -->
     <main class="fix">
 
         <!-- breadcrumb-area -->
@@ -214,219 +203,66 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="breadcrumb__img">
-                            <img src="assets/img/images/breadcrumb_img.png" alt="img" data-aos="fade-left" data-aos-delay="800">
+                            <img src="/petty/View/FrontOffice/assets/img/images/breadcrumb_img.png" alt="img" data-aos="fade-left" data-aos-delay="800">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="breadcrumb__shape-wrap">
-                <img src="assets/img/images/breadcrumb_shape01.png" alt="img" data-aos="fade-down-right" data-aos-delay="400">
-                <img src="assets/img/images/breadcrumb_shape02.png" alt="img" data-aos="fade-up-left" data-aos-delay="400">
+                <img src="/petty/View/FrontOffice/assets/img/images/breadcrumb_shape01.png" alt="img" data-aos="fade-down-right" data-aos-delay="400">
+                <img src="/petty/View/FrontOffice/assets/img/images/breadcrumb_shape02.png" alt="img" data-aos="fade-up-left" data-aos-delay="400">
             </div>
         </section>
         <!-- breadcrumb-area-end -->
 
-        <!-- registration-area -->
-        <section class="registration__area-two">
-            <div class="container">
-                <div class="registration__inner-wrap-two">
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="registration__form-wrap">
+<div class="appointments-container">
 
-                                <form action="../../Controllers/appointmentcontroller.php?action=store"
-                                      method="POST"
-                                      id="appointmentForm"
-                                      class="registration__form">
+    <h2 class="appointments-title">Edit Appointment</h2>
 
-                                    <h3 class="title">Request a Schedule</h3>
-                                    <span>Fields marked * are required</span>
+    <form action="/petty/Controllers/appointmentcontroller.php?action=update" method="POST" class="edit-form">
 
-                                    <!-- hidden fields -->
-                                    <input type="hidden" name="vet_id" value="<?php echo (int)$vetId; ?>">
-                                    <input type="hidden" name="appointment_date" id="appointment_date">
-                                    <input type="hidden" name="timeslot_id" id="timeslot_id">
+        <input type="hidden" name="appointment_id" value="<?= $appointment['appointment_id'] ?>">
 
-                                    <div class="row gutter-20">
+        <label>New Date *</label>
+        <input type="date" name="appointment_date" value="<?= $appointment['appointment_date'] ?>" required>
 
-                                        <!-- First Name -->
-                                        <div class="col-md-6">
-                                            <div class="form-grp">
-                                                <label>First Name *</label>
-                                                <input type="text" name="first_name" id="first_name" placeholder="First name">
-                                            </div>
-                                        </div>
+        <label>New Time *</label>
+        <input type="time" name="appointment_time" value="<?= $appointment['appointment_time'] ?>" required>
 
-                                        <!-- Last Name -->
-                                        <div class="col-md-6">
-                                            <div class="form-grp">
-                                                <label>Last Name *</label>
-                                                <input type="text" name="last_name" id="last_name" placeholder="Last name">
-                                            </div>
-                                        </div>
+        <label>Reason *</label>
+        <select name="visit_reason" required class="select-input">
+            <?php
+            $reasons = [
+                "Check-up / Wellness",
+                "Vaccination",
+                "Skin or Ear Issue",
+                "Digestive Issue",
+                "Injury",
+                "Pain / Limping",
+                "Follow-up",
+                "Surgery Consultation",
+                "Dental Care",
+                "Other"
+            ];
+            foreach ($reasons as $reason) {
+                $selected = ($appointment['visit_reason'] === $reason) ? "selected" : "";
+                echo "<option value=\"$reason\" $selected>$reason</option>";
+            }
+            ?>
+        </select>
 
-                                        <!-- Phone -->
-                                        <div class="col-md-6">
-                                            <div class="form-grp">
-                                                <label>Phone Number *</label>
-                                                <input type="text" name="patient_phone" id="patient_phone" placeholder="e.g. +216 20 000 000">
-                                            </div>
-                                        </div>
 
-                                        <!-- Species -->
-                                        <div class="col-md-6">
-                                            <div class="form-grp select-grp">
-                                                <label>Animal Type (Species) *</label>
-                                                <select name="species" id="species" class="orderby">
-                                                    <option value="">Select species</option>
-                                                    <option value="Dog">Dog</option>
-                                                    <option value="Cat">Cat</option>
-                                                    <option value="Bird">Bird</option>
-                                                    <option value="Small Mammal">Small Mammal (hamsters, guinea pigs...)</option>
-                                                    <option value="Reptile">Reptile</option>
-                                                    <option value="Fish">Fish</option>
-                                                    <option value="Cow">Cow</option>
-                                                    <option value="Sheep">Sheep</option>
-                                                    <option value="Goat">Goat</option>
-                                                    <option value="Pig">Pig</option>
-                                                    <option value="Chicken">Chicken</option>
-                                                    <option value="Horse">Horse</option>
-                                                    <option value="Duck">Duck</option>
-                                                    <option value="Rabbit">Rabbit</option>
-                                                    <option value="Bee">Bee</option>
-                                                </select>
-                                            </div>
-                                        </div>
+        <button type="submit" class="appt-btn-edit">Save Changes</button>
+    </form>
 
-                                        <!-- First visit -->
-                                        <div class="col-md-6">
-                                            <div class="form-grp">
-                                                <label>Is this your first visit to this vet? *</label><br>
-                                                <label><input type="radio" name="first_visit" value="1"> Yes</label>
-                                                <label style="margin-left:15px;"><input type="radio" name="first_visit" value="0" checked> No</label>
-                                            </div>
-                                        </div>
+    <a href="/petty/Controllers/appointmentcontroller.php?action=index" class="appointments-back-btn">← Back to list</a>
 
-                                        <!-- Emergency toggle -->
-                                        <div class="col-md-6">
-                                            <div class="form-grp">
-                                                <label>Is it an emergency? *</label>
-                                                <div class="toggle-wrapper">
-                                                    <span class="toggle-label">No</span>
-                                                    <label class="toggle-switch">
-                                                        <input type="checkbox" id="is_emergency" name="is_emergency" value="1">
-                                                        <span class="toggle-slider"></span>
-                                                    </label>
-                                                    <span class="toggle-label">Yes</span>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <!-- Notify earlier -->
-                                        <div class="col-md-12">
-                                            <div class="form-grp">
-                                                <label>
-                                                    <input type="checkbox" name="notify_if_earlier" value="1">
-                                                    Notify me if an earlier appointment becomes available
-                                                </label>
-                                            </div>
-                                        </div>
+</div>
 
-                                        <!-- Reason -->
-                                        <div class="col-md-12">
-                                            <div class="form-grp">
-                                                <label>Reason for Appointment *</label>
-                                                <select id="visit_reason" name="visit_reason"  required class="select-input">
-                                                    <option value="" disabled selected>-- Select reason --</option>
-                                                    <option value="Check-up / Wellness">Check-up / Wellness</option>
-                                                    <option value="Vaccination">Vaccination</option>
-                                                    <option value="Skin or Ear Issue">Skin or Ear Issue</option>
-                                                    <option value="Digestive Issue">Digestive Issue</option>
-                                                    <option value="Injury">Injury</option>
-                                                    <option value="Pain / Limping">Pain / Limping</option>
-                                                    <option value="Follow-up">Follow-up</option>
-                                                    <option value="Surgery Consultation">Surgery Consultation</option>
-                                                    <option value="Dental Care">Dental Care</option>
-                                                    <option value="Other">Other</option>
-                                                </select>
 
-                                            </div>
-                                        </div>
-
-                                        <!-- Calendar -->
-                                        <div class="col-md-12">
-                                            <div class="form-grp">
-                                                <label>Select Date *</label>
-                                               <div class="calendar">
-                                                  <div class="calendar-header">
-                                                    <button type="button" id="prev-month" class="calendar-nav">&lt;</button>
-                                                    <span id="calendar-title">Month</span>
-                                                    <button type="button" id="next-month" class="calendar-nav">&gt;</button>
-                                                  </div>
-                                                  <div class="calendar-weekdays">
-                                                      <div>Mon</div>
-                                                      <div>Tue</div>
-                                                      <div>Wed</div>
-                                                      <div>Thu</div>
-                                                      <div>Fri</div>
-                                                      <div>Sat</div>
-                                                      <div>Sun</div>
-                                                  </div>
-                                                  <div class="calendar-grid" id="calendar-grid"></div>
-                                              </div>
-
-                                            </div>
-                                        </div>
-
-                                        <!-- Time table -->
-                                        <div class="col-md-12">
-                                            <div class="form-grp">
-                                                <label>Available Times *</label>
-                                               <div id="timeslot-section" class="timeslot-section hidden">
-                                                <table class="timeslot-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Time</th>
-                                                            <th>Status</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="timeslot-body">
-                                                        <!-- rows injected by JS -->
-                                                    </tbody>
-                                                </table>
-                                                <p id="timeslot-helper" class="slot-helper">
-                                                    Choose a date to see available times.
-                                                </p>
-                                            </div>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <button type="submit" class="btn">
-                                        Confirm Appointment
-                                        <img src="assets/img/icon/right_arrow.svg" alt="" class="injectable">
-                                    </button>
-                                </form>
-
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="registration__img">
-                                <img src="assets/img/images/registration_img.png" alt="" data-aos="fade-right" data-aos-delay="400">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- registration-area-end -->
-
-    </main>
-    <!-- main-area-end -->
-
-    <!-- footer-area -->
+<!--integration reservation.php template-->
+ <!-- footer-area -->
     <footer>
         <div class="footer__area">
             <div class="footer__newsletter-three">
@@ -437,10 +273,11 @@
                                 <h2 class="title">Sign Up For Newsletter!</h2>
                             </div>
                         </div>
+                        
                         <div class="col-lg-7">
                             <form action="#" class="footer__newsletter-form-two">
                                 <input type="email" placeholder="Type Your E-mail">
-                                <button type="submit">Subscribe <img src="assets/img/icon/right_arrow04.svg" alt="" class="injectable"></button>
+                                <button type="submit">Subscribe <img src="/petty/View/FrontOffice/assets/img/icon/right_arrow04.svg" alt="" class="injectable"></button>
                             </form>
                         </div>
                     </div>
@@ -452,7 +289,7 @@
                         <div class="col-xl-3 col-lg-4 col-md-6">
                             <div class="footer__widget">
                                 <div class="footer__logo">
-                                    <a href="index.html"><img src="assets/img/logo/w_logo.png" alt=""></a>
+                                    <a href="index.html"><img src="/petty/View/FrontOffice/assets/img/logo/w_logo.png" alt=""></a>
                                 </div>
                                 <div class="footer__content footer__content-two">
                                     <p>Duis aute irure dolor in repreerit in voluptate velitesse We understand that your furry friend tred member</p>
@@ -512,8 +349,8 @@
                     </div>
                 </div>
                 <div class="footer__shape-wrap">
-                    <img src="assets/img/images/footer_shape01.png" alt="img" data-aos="fade-up-right" data-aos-delay="400">
-                    <img src="assets/img/images/footer_shape02.png" alt="img" data-aos="fade-up-left" data-aos-delay="400">
+                    <img src="/petty/View/FrontOffice/assets/img/images/footer_shape01.png" alt="img" data-aos="fade-up-right" data-aos-delay="400">
+                    <img src="/petty/View/FrontOffice/assets/img/images/footer_shape02.png" alt="img" data-aos="fade-up-left" data-aos-delay="400">
                 </div>
             </div>
             <div class="footer__bottom footer__bottom-two">
@@ -542,22 +379,22 @@
     <!-- footer-area-end -->
 
     <!-- JS here -->
-    <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/jquery.odometer.min.js"></script>
-    <script src="assets/js/jquery.appear.js"></script>
-    <script src="assets/js/swiper-bundle.min.js"></script>
-    <script src="assets/js/jquery.countdown.min.js"></script>
-    <script src="assets/js/svg-inject.min.js"></script>
-    <script src="assets/js/select2.min.js"></script>
-    <script src="assets/js/jquery-ui.min.js"></script>
-    <script src="assets/js/ajax-form.js"></script>
-    <script src="assets/js/wow.min.js"></script>
-    <script src="assets/js/aos.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/jquery.odometer.min.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/jquery.appear.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/swiper-bundle.min.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/jquery.countdown.min.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/svg-inject.min.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/select2.min.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/jquery-ui.min.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/ajax-form.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/wow.min.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/aos.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/main.js"></script>
     <!-- Your reservation logic -->
-    <script src="assets/js/reservation.js"></script>
+    <script src="/petty/View/FrontOffice/assets/js/reservation.js"></script>
 <!-- Code injected by live-server -->
 <script>
 	// <![CDATA[  <-- For SVG support
@@ -596,6 +433,7 @@
 	}
 	// ]]>
 </script>
-</body>
 
+
+</body>
 </html>

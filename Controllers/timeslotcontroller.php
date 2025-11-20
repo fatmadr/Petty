@@ -2,8 +2,8 @@
 session_start();
 header('Content-Type: application/json');
 
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/Timeslot.php';
+require_once __DIR__ . '/../Config/database.php';
+require_once __DIR__ . '/../Models/timeslot.php';
 
 $db = (new Database())->connect();
 $model = new Timeslot($db);
@@ -19,31 +19,46 @@ if ($action === 'byDate') {
         exit;
     }
 
-    $slots = $model->getByVetAndDate($vetId, $date);
+   // 1. Get customized slots (if any)
+$slots = $model->getByVetAndDate($vetId, $date);
+
+// 2. If no custom slots exist → load defaults
+if (empty($slots)) {
+    $stmt = $db->prepare("SELECT 
+                            template_id AS timeslot_id,
+                            start_time,
+                            end_time
+                          FROM timeslots_default
+                          ORDER BY start_time");
+    $stmt->execute();
+    $slots = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Mark all default slots as unbooked
+    foreach ($slots as &$slot) {
+        $slot['is_booked'] = 0;
+    }
+}
+
 
     // Add period (morning/afternoon/evening) and status label
-    $result = [];
-    foreach ($slots as $s) {
-        $hour = (int)substr($s['start_time'], 0, 2);
-        if ($hour < 12) {
-            $period = 'morning';
-        } elseif ($hour < 18) {
-            $period = 'afternoon';
-        } else {
-            $period = 'evening';
-        }
+  // Now convert them for JSON output
+$result = [];
 
-        $result[] = [
-            'id'          => (int)$s['timeslot_id'],
-            'start_time'  => substr($s['start_time'], 0, 5),
-            'end_time'    => substr($s['end_time'], 0, 5),
-            'period'      => $period,
-            'is_available'=> (int)$s['is_available'],
-            'status'      => $s['is_booked'] ? 'booked' : 'free'
-        ];
-    }
+foreach ($slots as $s) {
+    $hour = (int)substr($s['start_time'], 0, 2);
+    $period = ($hour < 12) ? 'morning' : (($hour < 18) ? 'afternoon' : 'evening');
 
-    echo json_encode($result);
+    $result[] = [
+        'id'          => (int)$s['timeslot_id'],
+        'start_time'  => substr($s['start_time'], 0, 5),
+        'end_time'    => substr($s['end_time'], 0, 5),
+        'period'      => $period,
+        'is_available'=> $s['is_booked'] ? 0 : 1,
+        'status'      => $s['is_booked'] ? 'booked' : 'free'
+    ];
+}
+
+echo json_encode($result);
     exit;
 }
 
