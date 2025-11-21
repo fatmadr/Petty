@@ -34,7 +34,7 @@ class ForumController extends Controller{
  }
  function reply(){
   $b=json_decode(file_get_contents('php://input'),true);
-  $u=['id'=>1,'username'=>'alice'];
+  $u=['id'=>1,'username'=>'eya'];
   $this->json($this->m->reply($b['topicId'],[
    'user_id'=>$u['id'],
    'username'=>$u['username'],
